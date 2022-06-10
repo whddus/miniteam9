@@ -3,8 +3,9 @@ package com.sparta.cafereview.controller;
 import com.sparta.cafereview.requestdto.UserRequestDto;
 import com.sparta.cafereview.responsedto.JwtResponseDto;
 import com.sparta.cafereview.service.UserService;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
