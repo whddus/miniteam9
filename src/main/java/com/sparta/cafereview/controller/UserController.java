@@ -27,11 +27,11 @@ public class UserController {
     }
 
     //로그아웃
-    @GetMapping("/logout")
-    public String logout(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return userService.logout(authentication);
-    }
+//    @GetMapping("/logout")
+//    public String logout(){
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        return userService.logout(authentication);
+//    }
 
     //아이디 중복 검사
     @PostMapping("/signup/useridCheck")

@@ -39,11 +39,11 @@ public class UserService {
         return createJwtToken(authentication);
     }
 
-    //로그아웃
-    public String logout(Authentication authentication){
-
-        return "로그아웃 되었습니다.";
-    }
+//    //로그아웃
+//    public String logout(Authentication authentication){
+//
+//        return "로그아웃 되었습니다.";
+//    }
 
     //아이디 중복 검사
     public boolean signupUseridCheck(UserRequestDto signupUseridCheckData){
