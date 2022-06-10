@@ -30,7 +30,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     //회원가입
-    public boolean signUpuser(UserRequestDto singUpData){
+    public boolean signupUser(UserRequestDto singUpData){
         User user = new User(singUpData);
         user.encryptPassword(passwordEncoder);
         userRepository.save(user);

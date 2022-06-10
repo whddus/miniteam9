@@ -18,7 +18,7 @@ public class UserController {
     //회원가입
     @PostMapping("/signup")
     public boolean signupUser(@RequestBody UserRequestDto singUpData){
-        return userService.signUpuser(singUpData);
+        return userService.signupUser(singUpData);
     }
 
     //로그인
