@@ -4,6 +4,7 @@ import com.sparta.cafereview.requestdto.UserRequestDto;
 import com.sparta.cafereview.responsedto.JwtResponseDto;
 import com.sparta.cafereview.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,8 +29,8 @@ public class UserController {
     //로그아웃
     @GetMapping("/logout")
     public String logout(){
-
-        return "로그아웃 되었습니다.";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return userService.logout(authentication);
     }
 
     //아이디 중복 검사
@@ -42,7 +43,6 @@ public class UserController {
     @GetMapping("/login/check")
     public boolean loginUserCheck(){
         Object authentication = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        return authentication.equals("anonymousUser");
         return userService.loginUserCheck(authentication);
     }
 }
