@@ -29,6 +29,7 @@ public class UserService {
     public boolean signUpuser(UserRequestDto singUpData){
         User user = new User(singUpData);
         user.encryptPassword(passwordEncoder);
+        userRepository.save(user);
         return true;
     }
 
