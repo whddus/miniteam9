@@ -1,5 +1,6 @@
 package com.sparta.cafereview.security;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -7,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -15,13 +17,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+@RequiredArgsConstructor
 @Configuration
+@EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtTokenProvider jwtTokenProvider;
 
-    public WebSecurityConfig(JwtTokenProvider jwtTokenProvider){
-        this.jwtTokenProvider = jwtTokenProvider;
-    }
 
     // 정적인 파일에 대한 요청들
     private static final String[] AUTH_WHITELIST = {
@@ -55,7 +56,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.cors();
         http.csrf().disable().authorizeRequests();
+        http.headers().frameOptions().disable();
 
         http.authorizeRequests()
                 // login 없이 접근 허용 하는 url
@@ -64,6 +67,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/cafe/list/").permitAll()
                 .antMatchers("/cafe/{cafeid}").permitAll()
                 .antMatchers("/cafe/{cafeid}/reply/list").permitAll()
+                .antMatchers("/images/**").permitAll()
+                .antMatchers("/css/**").permitAll()
                 // '/admin'의 경우 ADMIN 권한이 있는 사용자만 접근이 가능
 //                .antMatchers("/admin").hasRole("ADMIN")
                 // 그 외 모든 요청은 인증과정 필요
