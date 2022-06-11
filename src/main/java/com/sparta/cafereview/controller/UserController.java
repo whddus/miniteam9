@@ -3,9 +3,7 @@ package com.sparta.cafereview.controller;
 import com.sparta.cafereview.requestdto.UserRequestDto;
 import com.sparta.cafereview.responsedto.JwtResponseDto;
 import com.sparta.cafereview.service.UserService;
-
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,13 +24,6 @@ public class UserController {
     public JwtResponseDto loginUser(@RequestBody UserRequestDto loginData){
         return userService.loginUser(loginData);
     }
-
-    //로그아웃
-//    @GetMapping("/logout")
-//    public String logout(){
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        return userService.logout(authentication);
-//    }
 
     //아이디 중복 검사
     @PostMapping("/signup/useridCheck")
