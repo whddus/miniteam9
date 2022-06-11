@@ -2,9 +2,12 @@ package com.sparta.cafereview.controller;
 
 import com.sparta.cafereview.requestdto.ReplyRequestDto;
 import com.sparta.cafereview.responsedto.ReplyResponseDto;
+import com.sparta.cafereview.security.UserDetailsImpl;
 import com.sparta.cafereview.service.ReplyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,9 +28,10 @@ public class ReplyController {
 
     //댓글 작성(userDetails 정보 필요)
     @PostMapping("/{cafeid}/reply/save")
-    public boolean createReply(@PathVariable Long cafeid, @RequestBody ReplyRequestDto requestDto){
+    public boolean createReply(@PathVariable Long cafeid, @RequestBody ReplyRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
         if(cafeid != null){
-        Long userId = 1L;
+            String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+//        Long userId = 1L;
         requestDto.setNickname("tempNickname");
         replyService.createReply(requestDto, userId, cafeid);
         return true;

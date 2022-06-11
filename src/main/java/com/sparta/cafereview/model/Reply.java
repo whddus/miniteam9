@@ -20,10 +20,10 @@ public class Reply {
     private Long cafeId;
     @Column(nullable = false)
     private String nickname;
-    @Column(nullable = false)
-    private Long userId;
+    @Column(nullable = false, unique = true)
+    private String userId;
 
-    public Reply(ReplyRequestDto requestDto, Long userid, Long cafeId, String reply){
+    public Reply(ReplyRequestDto requestDto, String userid, Long cafeId, String reply){
         this.reply = reply;
         this.cafeId = cafeId;
         this.nickname = requestDto.getNickname();
@@ -31,7 +31,7 @@ public class Reply {
 
     }
 
-    public Reply(ReplyRequestDto requestDto, Long userid, Long cafeId){
+    public Reply(ReplyRequestDto requestDto, String userid, Long cafeId){
         this.cafeId = cafeId;
         this.reply = requestDto.getReply();
         this.nickname = requestDto.getNickname();
