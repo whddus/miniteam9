@@ -16,6 +16,9 @@ import java.util.Collection;
 public class UserDetailsImpl implements UserDetails {
     private static final String ROLE_PREFIX = "ROLE_";
     private final User user;
+//    private Long id;
+//    private String userid;
+//    private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -37,10 +40,6 @@ public class UserDetailsImpl implements UserDetails {
     public String getUsername() {
         return user.getUserid();
     }
-
-//    public Long getId() {
-//        return user.getId();
-//    }
 
     @Override
     public boolean isAccountNonExpired() {
