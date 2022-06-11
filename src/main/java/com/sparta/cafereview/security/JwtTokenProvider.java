@@ -58,17 +58,17 @@ public class JwtTokenProvider {
         val userid = userDetails.getUsername();
         claims.put("Userid", userid);
 
-//        val userId = userDetails.getId();
-//        claims.put("userid", userId);
+        val nickname = userDetails.getNickname();
+        claims.put("nickname", nickname);
 
-        return doGenerateToken(claims, userDetails.getUsername());
+        return doGenerateToken(claims);
     }
 
-    private String doGenerateToken(Map<String, Object> claims, String subject) {
+    private String doGenerateToken(Map<String, Object> claims) {
         return Jwts.builder()
                 .setHeaderParam("typ","JWT")
                 .setClaims(claims)
-                .setSubject(subject)
+//                .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
 
                 //토큰 만료 시간
