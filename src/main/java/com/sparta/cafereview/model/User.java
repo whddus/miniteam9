@@ -18,12 +18,15 @@ public class User {
     private String userid;
     @Column(nullable = false)
     private String password;
+    @Column(nullable = false)
+    private String nickname;
     @Enumerated(EnumType.STRING)
     private Role role;
 
     public User(UserRequestDto params){
         userid = params.getUserid();
         password = params.getPassword();
+        nickname = params.getNickname();
         role = Role.USER;
     }
 
