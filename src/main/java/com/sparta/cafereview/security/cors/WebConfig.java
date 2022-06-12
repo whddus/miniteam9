@@ -25,6 +25,8 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins("http://localhost:3000", "http://3.35.27.159:8080",
                         "http://sparta-du.shop.s3-website.ap-northeast-2.amazonaws.com")
                 .allowedMethods("POST", "GET", "PUT", "DELETE", "HEAD", "OPTIONS")
+                .allowedHeaders("Authorization", "Content-Type : application/json")
+                .maxAge(3600L)
                 .allowCredentials(true);
     }
 
