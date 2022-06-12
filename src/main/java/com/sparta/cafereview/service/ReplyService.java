@@ -26,9 +26,10 @@ public class ReplyService {
     }
     // 댓글 작성
     public boolean createReply(ReplyRequestDto replyRequestDto){
-        Reply reply = new Reply(replyRequestDto);
-        replyRepository.save(reply);
-        log.info("댓글 작성 완료하였습니다." + reply);
+        //저장 유무를 판단 (영속성 컨텍스트 확인)
+        Reply beforeSaveReply = new Reply(replyRequestDto);
+        Reply SaveReply = replyRepository.save(beforeSaveReply);
+        log.info("댓글 작성 완료하였습니다." + SaveReply);
         return true;
     }
 
