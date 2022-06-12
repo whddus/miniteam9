@@ -45,7 +45,8 @@ public class ReplyController {
 
     //댓글 수정(userDetails 정보 필요)
     @PatchMapping("/{cafeid}/reply/{replyid}/update")
-    public boolean updateReply(@PathVariable Long cafeid, @PathVariable Long replyid,
+    public boolean updateReply(@PathVariable Long cafeid,
+                               @PathVariable Long replyid,
                                @RequestBody ReplyRequestDto requestDto,
                                @AuthenticationPrincipal UserDetailsImpl userDetails) {
         if (cafeid != null && replyid != null) {
