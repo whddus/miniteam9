@@ -25,14 +25,8 @@ public class ReplyService {
         return list;
     }
     // 댓글 작성
-    public boolean createReply(ReplyRequestDto requestDto, String userId, Long cafeId){
-        String replyCheck = requestDto.getReply();
-        if (replyCheck.contains("script") || replyCheck.contains("<") || replyCheck.contains(">")) {
-            Reply reply = new Reply(requestDto, userId, cafeId, "xss 공격 지양 요청 드립니다.");
-            replyRepository.save(reply);
-            return false;
-        }
-        Reply reply = new Reply(requestDto, userId, cafeId);
+    public boolean createReply(ReplyRequestDto replyRequestDto){
+        Reply reply = new Reply(replyRequestDto);
         replyRepository.save(reply);
         log.info("댓글 작성 완료하였습니다." + reply);
         return true;
