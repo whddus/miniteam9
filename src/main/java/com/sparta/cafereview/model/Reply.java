@@ -11,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 public class Reply {
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
     @Column(nullable = false)
@@ -20,7 +20,7 @@ public class Reply {
     private Long cafeId;
     @Column(nullable = false)
     private String nickname;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String userId;
 
     public Reply(ReplyRequestDto requestDto, String userid, Long cafeId, String reply){
@@ -31,12 +31,11 @@ public class Reply {
 
     }
 
-    public Reply(ReplyRequestDto requestDto, String userid, Long cafeId){
-        this.cafeId = cafeId;
-        this.reply = requestDto.getReply();
-        this.nickname = requestDto.getNickname();
-        this.userId = userid;
-
+    public Reply(ReplyRequestDto replyRequestDto){
+        this.userId = replyRequestDto.getUserid();
+        this.cafeId = replyRequestDto.getCafeId();
+        this.reply = replyRequestDto.getReply();
+        this.nickname = replyRequestDto.getNickname();
     }
 
 
