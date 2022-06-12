@@ -61,14 +61,14 @@ public class JwtTokenProvider {
         val nickname = userDetails.getNickname();
         claims.put("nickname", nickname);
 
-        return doGenerateToken(claims);
+        return doGenerateToken(claims, userDetails.getUsername());
     }
 
-    private String doGenerateToken(Map<String, Object> claims) {
+    private String doGenerateToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
                 .setHeaderParam("typ","JWT")
                 .setClaims(claims)
-//                .setSubject(subject)
+                .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
 
                 //토큰 만료 시간
