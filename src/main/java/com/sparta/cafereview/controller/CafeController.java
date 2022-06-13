@@ -45,12 +45,13 @@ public class CafeController {
 
     //수정
     @PatchMapping("cafe/{cafeid}/update")
+
     public boolean updateCafe(@PathVariable Long cafeid, @RequestPart CafeUpdateDto cafeRequestDto,@RequestPart MultipartFile file,@AuthenticationPrincipal UserDetailsImpl userDetails) {
         String userid = userDetails.getUsername();
-        String imgPath = s3Service.upload(file,cafeRequestDto.getImgUrl());
+        String imgPath = s3Service.upload(file, cafeRequestDto.getImgUrl());
 
         cafeRequestDto.setImgUrl(imgPath);
-        //Dto에 담아준뒤 , 서비스 로직에 넘긴다.
+       
         boolean result = cafeService.update(cafeid, cafeRequestDto, userid);
         return result;
     }

@@ -25,6 +25,7 @@ public class CafeService {
 
     private final ReplyRepository replyRepository;
 
+
     //저장
     @Transactional
     public boolean saveCafe(CafeRequestDto requestDto) {

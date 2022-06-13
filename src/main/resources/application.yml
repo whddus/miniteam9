@@ -1,28 +1,17 @@
-#cloud:
-#  aws:
-#    credentials:
-#      accessKey: AKIAR6BPEVVAGMHQVG4B
-#      secretKey: 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
-#    s3:
-#      bucket:
-#        url: https://s3.ap-northeast-2.amazonaws.com/springboot-db
-#        nodeValue: springboot-db
-#    region:
-#      static: ap-northeast-2
-#    stack:
-#      auto: 'false'
-
 cloud:
   aws:
     credentials:
-      access-key: {AKIAR6BPEVVAGMHQVG4B}
-      secret-key: {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}
+      accessKey: AKIAR6BPEVVAGMHQVG4B
+      secretKey: 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
     s3:
-      bucket: springboot-db
+      bucket:
+        url: https://s3.ap-northeast-2.amazonaws.com/springboot-db
+        nodeValue: springboot-db
     region:
       static: ap-northeast-2
     stack:
-      auto: false
+      auto: 'false'
+
 
 
 spring:
