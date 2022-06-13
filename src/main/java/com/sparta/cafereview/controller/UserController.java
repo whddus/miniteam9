@@ -2,11 +2,12 @@ package com.sparta.cafereview.controller;
 
 import com.sparta.cafereview.requestdto.UserRequestDto;
 import com.sparta.cafereview.responsedto.JwtResponseDto;
-import com.sparta.cafereview.security.UserDetailsImpl;
 import com.sparta.cafereview.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
@@ -32,10 +33,4 @@ public class UserController {
         return userService.signupUseridCheck(signupUseridCheckData);
     }
 
-    //로그인 중복 확인
-    @GetMapping("/login/check")
-    public String loginUserCheck(@AuthenticationPrincipal UserDetailsImpl userDetails){
-//        Object authentication = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return userService.loginUserCheck(userDetails);
-    }
 }

@@ -51,14 +51,6 @@ public class UserService {
         return !found.isPresent();
     }
 
-    //로그인 중복 확인
-    public String loginUserCheck(UserDetailsImpl userDetails){
-        if(userDetails != null){
-            return userDetails.getNickname();
-        }
-        return "";
-    }
-
     //JWT 토큰 생성기
     private JwtResponseDto createJwtToken(Authentication authentication){
         UserDetailsImpl principal = (UserDetailsImpl) authentication.getPrincipal();
