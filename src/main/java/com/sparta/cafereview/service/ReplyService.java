@@ -20,7 +20,7 @@ public class ReplyService {
 
     // 댓글 조회
     public List<ReplyResponseDto> getReply(Long cafeid) {
-        List<Reply> replies = replyRepository.findAllByCafeid(cafeid);
+        List<Reply> replies = replyRepository.findAllByCafeId(cafeid);
         List<ReplyResponseDto> list = replies.stream().map(ReplyResponseDto::new).collect(Collectors.toList());
         return list;
     }
@@ -56,7 +56,7 @@ public class ReplyService {
         ).getUserid();
         if(Objects.equals(writeId, userid)){
             replyRepository.deleteById(replyid);
-            List<Reply> replies = replyRepository.findAllByCafeid(cafeid);
+            List<Reply> replies = replyRepository.findAllByCafeId(cafeid);
             log.info("댓글 삭제 완료" + replies);
             return true;
         }
