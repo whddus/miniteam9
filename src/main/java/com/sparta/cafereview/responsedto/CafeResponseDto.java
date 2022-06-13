@@ -9,6 +9,6 @@ public class CafeResponseDto {
     private Long id;
     private String coffeebeanname;
     private String cafename;
-    private String imageUrl;
+    private String imgUrl;
     private String cafereview;
 }

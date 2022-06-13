@@ -6,9 +6,11 @@ import com.sparta.cafereview.responsedto.CafeDetailResponseDto;
 import com.sparta.cafereview.responsedto.CafeResponseDto;
 import com.sparta.cafereview.security.UserDetailsImpl;
 import com.sparta.cafereview.service.CafeService;
+import com.sparta.cafereview.service.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -18,18 +20,19 @@ public class CafeController {
 
 
     private final CafeService cafeService;
+    private final S3Service s3Service;
 
     //저장
     @PostMapping("/cafe/save")
-    public Boolean saveCafe(@RequestBody CafeRequestDto cafeRequestDto,
-                            //받는 데이터 방식도 변경 및 추가
-                            //ex @RequestPart MultipartFile file,
+    public Boolean saveCafe(@RequestPart CafeRequestDto cafeRequestDto,
+                            @RequestPart MultipartFile file,
                             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         String userid = userDetails.getUsername();
         cafeRequestDto.setUserid(userid);
-        //이곳에 사진을 먼저 저장하는 함수 필요
-        //ex) String imageUrl = AWSS3서비스이름.함수이름(file);
-        //ex) cafeRequestDto.setImageUrl(imageUrl);
+        String imgPath = s3Service.upload(file);
+        //이미지 경로를 받아온다.
+        cafeRequestDto.setImgUrl(imgPath);
+        //Dto에 담아준뒤 , 서비스 로직에 넘긴다.
         boolean cafe = cafeService.saveCafe(cafeRequestDto);
         return cafe;
     }
@@ -42,9 +45,14 @@ public class CafeController {
 
     //수정
     @PatchMapping("cafe/{cafeid}/update")
-    public boolean updateCafe(@PathVariable Long cafeid, @RequestBody CafeUpdateDto requestDto,@AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+    public boolean updateCafe(@PathVariable Long cafeid, @RequestPart CafeUpdateDto cafeRequestDto,@RequestPart MultipartFile file,@AuthenticationPrincipal UserDetailsImpl userDetails) {
         String userid = userDetails.getUsername();
-        boolean result = cafeService.update(cafeid, requestDto, userid);
+        String imgPath = s3Service.upload(file, cafeRequestDto.getImgUrl());
+
+        cafeRequestDto.setImgUrl(imgPath);
+       
+        boolean result = cafeService.update(cafeid, cafeRequestDto, userid);
         return result;
     }
 

@@ -73,6 +73,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/admin").hasRole("ADMIN")
                 // 그 외 모든 요청은 인증과정 필요
                 .anyRequest().authenticated()
+
                 .and()
                 // 토큰 기반 인증이기 때문에 session 사용 x
                 .sessionManagement()
