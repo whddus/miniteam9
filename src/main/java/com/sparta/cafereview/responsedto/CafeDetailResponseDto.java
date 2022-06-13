@@ -10,7 +10,7 @@ import java.util.List;
 public class CafeDetailResponseDto {
         private String coffeebeanname;
         private String cafename;
-        private String imageUrl;
+        private String imgUrl;
         private String cafereview;
         private List<CafeDetailReplyResponseDto> reply;
 

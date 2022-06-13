@@ -85,7 +85,7 @@ public class CafeService {
         List<Reply> reply = replyRepository.findAllByCafeid(cafeid);
         List<CafeDetailReplyResponseDto> detail = reply.stream().map(CafeDetailReplyResponseDto::new).collect(Collectors.toList());
 
-        return new CafeDetailResponseDto(cafe.getCoffeebeanname(), cafe.getCafename(), cafe.getImageUrl(),
+        return new CafeDetailResponseDto(cafe.getCoffeebeanname(), cafe.getCafename(), cafe.getImgUrl(),
                 cafe.getCafereview(), detail
         );
     }
