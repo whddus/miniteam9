@@ -52,14 +52,18 @@ public class UserService {
     }
 
     //로그인 중복 확인
-    public boolean loginUserCheck(UserDetailsImpl userDetails){
-        return userDetails != null;
+    public String loginUserCheck(UserDetailsImpl userDetails){
+        if(userDetails != null){
+            return userDetails.getNickname();
+        }
+        return "";
     }
 
     //JWT 토큰 생성기
     private JwtResponseDto createJwtToken(Authentication authentication){
         UserDetailsImpl principal = (UserDetailsImpl) authentication.getPrincipal();
         String token = jwtTokenProvider.generateToken(principal);
-        return new JwtResponseDto(token);
+        String nickname = ((UserDetailsImpl) authentication.getPrincipal()).getNickname();
+        return new JwtResponseDto(token, nickname);
     }
 }
