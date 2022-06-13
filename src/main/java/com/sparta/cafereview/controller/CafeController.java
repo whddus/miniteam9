@@ -24,8 +24,8 @@ public class CafeController {
 
     //저장
     @PostMapping("/cafe/save")
-    public Boolean saveCafe(@RequestPart CafeRequestDto cafeRequestDto,
-                            @RequestPart MultipartFile file,
+    public Boolean saveCafe(@RequestPart("post-data") CafeRequestDto cafeRequestDto,
+                            @RequestPart("img") MultipartFile file,
                             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         String userid = userDetails.getUsername();
         cafeRequestDto.setUserid(userid);
@@ -46,11 +46,10 @@ public class CafeController {
     }
 
     //수정
-    @PatchMapping("cafe/{cafeid}/update")
-
+    @PatchMapping("/cafe/{cafeid}/update")
     public boolean updateCafe(@PathVariable Long cafeid,
-                              @RequestPart CafeUpdateDto cafeRequestDto,
-                              @RequestPart MultipartFile file,
+                              @RequestPart("post-data") CafeUpdateDto cafeRequestDto,
+                              @RequestPart("img") MultipartFile file,
                               @AuthenticationPrincipal UserDetailsImpl userDetails) {
         String userid = userDetails.getUsername();
         String imgPath = s3Service.upload(file, cafeRequestDto.getImgUrl());
