@@ -22,8 +22,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
 
                 // 주소 수정 부분
-                .allowedOrigins("http://localhost:3000", "http://3.35.27.159:8080",
-                        "http://sparta-du.shop.s3-website.ap-northeast-2.amazonaws.com")
+                .allowedOrigins("http://localhost:3000")
                 .allowedMethods("POST", "GET", "PUT", "DELETE", "HEAD", "OPTIONS")
                 .allowedHeaders("Authorization", "Content-Type", "application/json;charset=UTF-8")
                 .maxAge(3600L)
