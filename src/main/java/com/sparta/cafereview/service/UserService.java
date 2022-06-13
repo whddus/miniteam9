@@ -63,6 +63,7 @@ public class UserService {
     private JwtResponseDto createJwtToken(Authentication authentication){
         UserDetailsImpl principal = (UserDetailsImpl) authentication.getPrincipal();
         String token = jwtTokenProvider.generateToken(principal);
-        return new JwtResponseDto(token);
+        String nickname = ((UserDetailsImpl) authentication.getPrincipal()).getNickname();
+        return new JwtResponseDto(token, nickname);
     }
 }

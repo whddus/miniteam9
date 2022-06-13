@@ -7,4 +7,5 @@ import lombok.Getter;
 @Getter
 public class JwtResponseDto {
     private String accessToken;
+    private String nickname;
 }
