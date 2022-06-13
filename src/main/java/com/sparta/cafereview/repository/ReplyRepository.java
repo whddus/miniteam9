@@ -9,7 +9,7 @@ import java.util.List;
 public interface ReplyRepository extends JpaRepository<Reply, Long> {
 
     List<Reply> findAllByCafeId(Long cafeId);
-    Optional<Reply> findById(Long id);
+//    Optional<Reply> findById(Long id);
 
     List<CafeDetailReplyResponseDto> findAllBycafeid(Long cafeid);
 

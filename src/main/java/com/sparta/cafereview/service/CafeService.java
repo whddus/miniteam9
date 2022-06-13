@@ -9,7 +9,6 @@ import com.sparta.cafereview.requestdto.CafeUpdateDto;
 import com.sparta.cafereview.responsedto.CafeDetailReplyResponseDto;
 import com.sparta.cafereview.responsedto.CafeDetailResponseDto;
 import com.sparta.cafereview.responsedto.CafeResponseDto;
-import com.sparta.cafereview.responsedto.ReplyResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,10 +82,10 @@ public class CafeService {
         String cafename = cafe.getCafename();
 
         //List<CafeDetailReplyResponseDto> reply = replyRepository.findAllByCafeid(cafeid);
-        List<Reply> reply = replyRepository.findAllByCafeid(cafeid);
+        List<Reply> reply = replyRepository.findAllByCafeId(cafeid);
         List<CafeDetailReplyResponseDto> detail = reply.stream().map(CafeDetailReplyResponseDto::new).collect(Collectors.toList());
 
-        return new CafeDetailResponseDto(cafe.getCoffeebeanname(), cafe.getCafename(), cafe.getImageUrl(),
+        return new CafeDetailResponseDto(cafe.getCoffeebeanname(), cafe.getCafename(), cafe.getImgUrl(),
                 cafe.getCafereview(), detail
         );
     }

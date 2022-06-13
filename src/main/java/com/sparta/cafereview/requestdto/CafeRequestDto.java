@@ -9,7 +9,7 @@ import lombok.Setter;
 public class CafeRequestDto {
     private String cafename;
     private String coffeebeanname;
-    private String imageUrl;
     private String cafereview;
     private String userid;
+    private String imgUrl;
 }

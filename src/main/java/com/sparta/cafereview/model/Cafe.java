@@ -19,7 +19,7 @@ public class Cafe {
     @Column(nullable = false)
     private String coffeebeanname;
     @Column(nullable = false)
-    private String imageUrl;
+    private String imgUrl;
     @Column(nullable = false)
     private String cafereview;
     @Column(nullable = false)
@@ -28,7 +28,7 @@ public class Cafe {
     public Cafe(CafeRequestDto requestDto){
         this.cafename = requestDto.getCafename();
         this.coffeebeanname = requestDto.getCoffeebeanname();
-        this.imageUrl = requestDto.getImageUrl();
+        this.imgUrl = requestDto.getImgUrl();
         this.cafereview = requestDto.getCafereview();
         this.userid = requestDto.getUserid();
     }
@@ -36,7 +36,7 @@ public class Cafe {
     public void update(CafeUpdateDto requestDto) {
         this.cafename = requestDto.getCafename();
         this.coffeebeanname = requestDto.getCoffeebeanname();
-        this.imageUrl = requestDto.getImageUrl();
+        this.imgUrl = requestDto.getImgUrl();
         this.cafereview = requestDto.getCafereview();
     }
 
