@@ -31,10 +31,11 @@ public class UserService {
 
     //회원가입
     public boolean signupUser(UserRequestDto singUpData){
-        User user = new User(singUpData);
-        user.encryptPassword(passwordEncoder);
-        userRepository.save(user);
-        return true;
+        User beforeSaveUser = new User(singUpData);
+        beforeSaveUser.encryptPassword(passwordEncoder);
+        User saveUser = userRepository.save(beforeSaveUser);
+        User checkUser = userRepository.findById(saveUser.getId()).orElse(null);
+        return saveUser.equals(checkUser);
     }
 
     //로그인
