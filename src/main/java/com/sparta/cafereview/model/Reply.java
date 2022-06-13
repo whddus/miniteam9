@@ -17,23 +17,23 @@ public class Reply {
     @Column(nullable = false)
     private String reply;
     @Column(nullable = false)
-    private Long cafeId;
+    private Long cafeid;
     @Column(nullable = false)
     private String nickname;
     @Column(nullable = false)
-    private String userId;
+    private String userid;
 
-    public Reply(ReplyRequestDto requestDto, String userid, Long cafeId, String reply){
+    public Reply(ReplyRequestDto requestDto, String userid, Long cafeid, String reply){
         this.reply = reply;
-        this.cafeId = cafeId;
+        this.cafeid = cafeid;
         this.nickname = requestDto.getNickname();
-        this.userId = userid;
+        this.userid = userid;
 
     }
 
     public Reply(ReplyRequestDto replyRequestDto){
-        this.userId = replyRequestDto.getUserid();
-        this.cafeId = replyRequestDto.getCafeId();
+        this.userid = replyRequestDto.getUserid();
+        this.cafeid = replyRequestDto.getCafeid();
         this.reply = replyRequestDto.getReply();
         this.nickname = replyRequestDto.getNickname();
     }

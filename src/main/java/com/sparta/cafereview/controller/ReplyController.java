@@ -25,7 +25,7 @@ public class ReplyController {
         return replyService.getReply(cafeid);
     }
 
-    //댓글 작성(userDetails 정보 필요)
+    //댓글 작성
     @PostMapping("/{cafeid}/reply/save")
     public boolean createReply(@PathVariable Long cafeid,
                                @RequestBody ReplyRequestDto replyRequestDto,
@@ -35,7 +35,7 @@ public class ReplyController {
             String nickname = userDetails.getNickname();
             replyRequestDto.setUserid(userid);
             replyRequestDto.setNickname(nickname);
-            replyRequestDto.setCafeId(cafeid);
+            replyRequestDto.setCafeid(cafeid);
             replyService.createReply(replyRequestDto);
             return true;
         }
@@ -43,30 +43,32 @@ public class ReplyController {
         return false;
     }
 
-    //댓글 수정(userDetails 정보 필요)
+    //댓글 수정
     @PatchMapping("/{cafeid}/reply/{replyid}/update")
     public boolean updateReply(@PathVariable Long cafeid,
                                @PathVariable Long replyid,
                                @RequestBody ReplyRequestDto requestDto,
                                @AuthenticationPrincipal UserDetailsImpl userDetails) {
         if (cafeid != null && replyid != null) {
-            Long userId = 1L;
-            String nickname = "tempNickname";
-            replyService.update(replyid, requestDto, nickname, userId, cafeid);
+            String userid = userDetails.getUsername();
+            String nickname = userDetails.getNickname();
+            requestDto.setUserid(userid);
+            requestDto.setNickname(nickname);
+            replyService.update(replyid, requestDto, nickname, userid, cafeid);
             return true;
         }
         log.info("cafeid and replyid are null");
         return false;
     }
 
-    //댓글 삭제(userDetails 정보 필요)
+    //댓글 삭제
     @DeleteMapping("{cafeid}/reply/{replyid}/delete")
     public boolean deleteReply(@PathVariable Long replyid,
                                @PathVariable Long cafeid,
                                @AuthenticationPrincipal UserDetailsImpl userDetails) {
         if (replyid != null) {
-            Long userId = 1L;
-            replyService.deleteReply(replyid, userId, cafeid);
+            String userid = userDetails.getUsername();
+            replyService.deleteReply(replyid, userid, cafeid);
             return true;
         }
         log.info("replyid is null.");

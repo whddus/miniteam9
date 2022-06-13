@@ -19,8 +19,8 @@ public class ReplyService {
     private final ReplyRepository replyRepository;
 
     // 댓글 조회
-    public List<ReplyResponseDto> getReply(Long cafeId) {
-        List<Reply> replies = replyRepository.findAllByCafeId(cafeId);
+    public List<ReplyResponseDto> getReply(Long cafeid) {
+        List<Reply> replies = replyRepository.findAllByCafeid(cafeid);
         List<ReplyResponseDto> list = replies.stream().map(ReplyResponseDto::new).collect(Collectors.toList());
         return list;
     }
@@ -35,12 +35,12 @@ public class ReplyService {
 
 
     // 댓글 업데이트
-    public boolean update(Long replyid, ReplyRequestDto requestDto, String nickname, Long userId, Long cafeId){
+    public boolean update(Long replyid, ReplyRequestDto requestDto, String nickname, String userid, Long cafeid){
         Reply reply = replyRepository.findById(replyid).orElseThrow(
                 () -> new IllegalArgumentException("댓글이 존재하지 않습니다.")
         );
-        Long writerId = reply.getUserId();
-        if(Objects.equals(writerId, userId)){
+        String writerId = reply.getUserid();
+        if(Objects.equals(writerId, userid)){
             reply.update(requestDto);
             replyRepository.save(reply);
             log.info("댓글 수정 완료" + reply);
@@ -50,13 +50,13 @@ public class ReplyService {
         return false;
     }
     //댓글 삭제
-    public boolean deleteReply(Long replyId, Long userId, Long cafeId){
-        Long writeId = replyRepository.findById(replyId).orElseThrow(
+    public boolean deleteReply(Long replyid, String userid, Long cafeid){
+        String writeId = replyRepository.findById(replyid).orElseThrow(
                 () -> new IllegalArgumentException("댓글이 존재하지 않습니다.")
-        ).getUserId();
-        if(Objects.equals(writeId, userId)){
-            replyRepository.deleteById(replyId);
-            List<Reply> replies = replyRepository.findAllByCafeId(cafeId);
+        ).getUserid();
+        if(Objects.equals(writeId, userid)){
+            replyRepository.deleteById(replyid);
+            List<Reply> replies = replyRepository.findAllByCafeid(cafeid);
             log.info("댓글 삭제 완료" + replies);
             return true;
         }
