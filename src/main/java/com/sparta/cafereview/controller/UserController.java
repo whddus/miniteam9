@@ -34,7 +34,7 @@ public class UserController {
 
     //로그인 중복 확인
     @GetMapping("/login/check")
-    public boolean loginUserCheck(@AuthenticationPrincipal UserDetailsImpl userDetails){
+    public String loginUserCheck(@AuthenticationPrincipal UserDetailsImpl userDetails){
 //        Object authentication = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return userService.loginUserCheck(userDetails);
     }
