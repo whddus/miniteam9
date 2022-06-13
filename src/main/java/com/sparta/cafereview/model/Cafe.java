@@ -25,12 +25,12 @@ public class Cafe {
     @Column(nullable = false)
     private String userid;
 
-    public Cafe(CafeRequestDto requestDto,String userid){
+    public Cafe(CafeRequestDto requestDto){
         this.cafename = requestDto.getCafename();
         this.coffeebeanname = requestDto.getCoffeebeanname();
         this.imageUrl = requestDto.getImageUrl();
         this.cafereview = requestDto.getCafereview();
-        this.userid = userid;
+        this.userid = requestDto.getUserid();
     }
 
     public void update(CafeUpdateDto requestDto) {
