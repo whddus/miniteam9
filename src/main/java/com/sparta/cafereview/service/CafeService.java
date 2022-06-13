@@ -1,23 +1,29 @@
 package com.sparta.cafereview.service;
 
 import com.sparta.cafereview.model.Cafe;
+import com.sparta.cafereview.model.Reply;
 import com.sparta.cafereview.repository.CafeRepository;
+import com.sparta.cafereview.repository.ReplyRepository;
 import com.sparta.cafereview.requestdto.CafeRequestDto;
 import com.sparta.cafereview.requestdto.CafeUpdateDto;
 import com.sparta.cafereview.responsedto.CafeDetailReplyResponseDto;
 import com.sparta.cafereview.responsedto.CafeDetailResponseDto;
 import com.sparta.cafereview.responsedto.CafeResponseDto;
+import com.sparta.cafereview.responsedto.ReplyResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
 @Service
 public class CafeService {
     private final CafeRepository cafeRepository;
+
+    private final ReplyRepository replyRepository;
 
     //저장
     @Transactional
@@ -75,10 +81,12 @@ public class CafeService {
                 () -> new NullPointerException("카페리뷰가 존재하지 않습니다."));
         String cafename = cafe.getCafename();
 
-        List<CafeDetailReplyResponseDto> reply = replyRepository.findAllBycafeid(cafeid);
+        //List<CafeDetailReplyResponseDto> reply = replyRepository.findAllByCafeid(cafeid);
+        List<Reply> reply = replyRepository.findAllByCafeid(cafeid);
+        List<CafeDetailReplyResponseDto> detail = reply.stream().map(CafeDetailReplyResponseDto::new).collect(Collectors.toList());
 
         return new CafeDetailResponseDto(cafe.getCoffeebeanname(), cafe.getCafename(), cafe.getImageUrl(),
-                cafe.getCafereview(), reply
+                cafe.getCafereview(), detail
         );
     }
 
