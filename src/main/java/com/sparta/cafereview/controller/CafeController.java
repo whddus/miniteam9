@@ -42,8 +42,8 @@ public class CafeController {
 
     //수정
     @PatchMapping("cafe/{cafeid}/update")
-    public boolean updateCafe(@PathVariable Long cafeid, @RequestBody CafeUpdateDto requestDto) {
-        String userid = "whddus@whddus";
+    public boolean updateCafe(@PathVariable Long cafeid, @RequestBody CafeUpdateDto requestDto,@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        String userid = userDetails.getUsername();
         boolean result = cafeService.update(cafeid, requestDto, userid);
         return result;
     }
@@ -57,8 +57,8 @@ public class CafeController {
 
     //삭제
     @DeleteMapping("/cafe/{cafeid}/delete")
-    public Boolean deleteCafe(@PathVariable Long cafeid) {
-        String userid = "whddus@whddus";
+    public Boolean deleteCafe(@PathVariable Long cafeid,@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        String userid = userDetails.getUsername();
         Boolean result = cafeService.deleteCafe(cafeid, userid);
         return result;
     }
