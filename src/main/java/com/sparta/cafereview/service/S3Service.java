@@ -9,7 +9,6 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,14 +25,14 @@ public class S3Service {
 
     private AmazonS3 s3Client;
 
-    @Value("${cloud.aws.credentials.accessKey}")
-    private String accessKey;
+//    @Value("${cloud.aws.credentials.accessKey}")
+    private String accessKey = "AKIAR6BPEVVAGMHQVG4B";
 
-    @Value("${cloud.aws.credentials.secretKey}")
-    private String secretKey;
+//    @Value("${cloud.aws.credentials.secretKey}")
+    private String secretKey = "Z1bwjSEALZdrkRxsfoX5fQarwIc1RxEFk3QZEohQ";
 
-    @Value("${cloud.aws.region.static}")
-    private String region;
+//    @Value("${cloud.aws.region.static}")
+    private String region = "ap-northeast-2";
 
 
     private final String bucket = "springboot-db";
