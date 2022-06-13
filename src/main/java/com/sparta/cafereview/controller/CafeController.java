@@ -29,10 +29,12 @@ public class CafeController {
                             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         String userid = userDetails.getUsername();
         cafeRequestDto.setUserid(userid);
-        String imgPath = s3Service.upload(file);
+
         //이미지 경로를 받아온다.
-        cafeRequestDto.setImgUrl(imgPath);
+        String imgPath = s3Service.upload(file);
+
         //Dto에 담아준뒤 , 서비스 로직에 넘긴다.
+        cafeRequestDto.setImgUrl(imgPath);
         boolean cafe = cafeService.saveCafe(cafeRequestDto);
         return cafe;
     }
@@ -46,7 +48,10 @@ public class CafeController {
     //수정
     @PatchMapping("cafe/{cafeid}/update")
 
-    public boolean updateCafe(@PathVariable Long cafeid, @RequestPart CafeUpdateDto cafeRequestDto,@RequestPart MultipartFile file,@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public boolean updateCafe(@PathVariable Long cafeid,
+                              @RequestPart CafeUpdateDto cafeRequestDto,
+                              @RequestPart MultipartFile file,
+                              @AuthenticationPrincipal UserDetailsImpl userDetails) {
         String userid = userDetails.getUsername();
         String imgPath = s3Service.upload(file, cafeRequestDto.getImgUrl());
 
@@ -76,5 +81,4 @@ public class CafeController {
     public CafeDetailResponseDto getCafe(@PathVariable Long cafeid) {
         return cafeService.getCafe(cafeid);
     }
-
 }
