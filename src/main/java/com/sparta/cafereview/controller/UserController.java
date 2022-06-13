@@ -2,9 +2,10 @@ package com.sparta.cafereview.controller;
 
 import com.sparta.cafereview.requestdto.UserRequestDto;
 import com.sparta.cafereview.responsedto.JwtResponseDto;
+import com.sparta.cafereview.security.UserDetailsImpl;
 import com.sparta.cafereview.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -33,8 +34,8 @@ public class UserController {
 
     //로그인 중복 확인
     @GetMapping("/login/check")
-    public boolean loginUserCheck(){
-        Object authentication = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return userService.loginUserCheck(authentication);
+    public boolean loginUserCheck(@AuthenticationPrincipal UserDetailsImpl userDetails){
+//        Object authentication = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userService.loginUserCheck(userDetails);
     }
 }

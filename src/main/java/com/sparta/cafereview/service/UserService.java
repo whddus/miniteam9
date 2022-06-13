@@ -52,8 +52,8 @@ public class UserService {
     }
 
     //로그인 중복 확인
-    public boolean loginUserCheck(Object authentication){
-        return !authentication.equals("anonymousUser");
+    public boolean loginUserCheck(UserDetailsImpl userDetails){
+        return userDetails != null;
     }
 
     //JWT 토큰 생성기
