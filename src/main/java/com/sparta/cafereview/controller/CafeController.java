@@ -51,7 +51,7 @@ public class CafeController {
         String imgPath = s3Service.upload(file, cafeRequestDto.getImgUrl());
 
         cafeRequestDto.setImgUrl(imgPath);
-       
+
         boolean result = cafeService.update(cafeid, cafeRequestDto, userid);
         return result;
     }
