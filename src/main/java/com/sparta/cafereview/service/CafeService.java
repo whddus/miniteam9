@@ -2,6 +2,7 @@ package com.sparta.cafereview.service;
 
 import com.sparta.cafereview.model.Cafe;
 import com.sparta.cafereview.repository.CafeRepository;
+import com.sparta.cafereview.repository.ReplyRepository;
 import com.sparta.cafereview.requestdto.CafeRequestDto;
 import com.sparta.cafereview.requestdto.CafeUpdateDto;
 import com.sparta.cafereview.responsedto.CafeDetailReplyResponseDto;
@@ -18,7 +19,7 @@ import java.util.List;
 @Service
 public class CafeService {
     private final CafeRepository cafeRepository;
-
+    private final ReplyRepository replyRepository;
     //저장
     @Transactional
     public boolean saveCafe(CafeRequestDto requestDto) {
