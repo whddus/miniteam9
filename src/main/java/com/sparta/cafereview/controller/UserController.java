@@ -32,5 +32,4 @@ public class UserController {
     public boolean signupUseridCheck(@RequestBody UserRequestDto signupUseridCheckData){
         return userService.signupUseridCheck(signupUseridCheckData);
     }
-
 }
