@@ -22,22 +22,15 @@ public class CafeController {
     private final CafeService cafeService;
     private final S3Service s3Service;
 
-    //저장
+//    저장
     @PostMapping("/cafereview")
     public Boolean saveCafe(@RequestPart("post-data") CafeRequestDto cafeRequestDto,
                             @RequestPart("img") MultipartFile file,
                             @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        String userid = userDetails.getUsername();
-        cafeRequestDto.setUserid(userid);
-
-        //이미지 경로를 받아온다.
-        String imgPath = s3Service.upload(file);
-
-        //Dto에 담아준뒤 , 서비스 로직에 넘긴다.
-        cafeRequestDto.setImgUrl(imgPath);
-        boolean cafe = cafeService.saveCafe(cafeRequestDto);
+        boolean cafe = cafeService.saveCafe(cafeRequestDto,file,userDetails);
         return cafe;
     }
+
 
     //전체 조회
     @GetMapping("/cafereview/list")
@@ -51,12 +44,7 @@ public class CafeController {
                               @RequestPart("post-data") CafeUpdateDto cafeRequestDto,
                               @RequestPart("img") MultipartFile file,
                               @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        String userid = userDetails.getUsername();
-        String imgPath = s3Service.upload(file, cafeRequestDto.getImgUrl());
-
-        cafeRequestDto.setImgUrl(imgPath);
-
-        boolean result = cafeService.update(cafeid, cafeRequestDto, userid);
+        boolean result = cafeService.update(cafeid, cafeRequestDto,file,userDetails);
         return result;
     }
 

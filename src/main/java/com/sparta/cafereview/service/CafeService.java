@@ -9,9 +9,11 @@ import com.sparta.cafereview.requestdto.CafeUpdateDto;
 import com.sparta.cafereview.responsedto.CafeDetailReplyResponseDto;
 import com.sparta.cafereview.responsedto.CafeDetailResponseDto;
 import com.sparta.cafereview.responsedto.CafeResponseDto;
+import com.sparta.cafereview.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,14 +26,29 @@ public class CafeService {
 
     private final ReplyRepository replyRepository;
 
+    private final S3Service s3Service;
+
 
     //저장
     @Transactional
-    public boolean saveCafe(CafeRequestDto requestDto) {
+    public boolean saveCafe(CafeRequestDto cafeRequestDto, MultipartFile file, UserDetailsImpl userDetails) {
+        String userid = userDetails.getUsername();
+        cafeRequestDto.setUserid(userid);
+
+        //이미지 경로를 받아온다.
+        String imgPath = s3Service.upload(file);
+
+        //Dto에 담아준뒤 , 서비스 로직에 넘긴다.
+        cafeRequestDto.setImgUrl(imgPath);
+
+        //userid 있는지 판단
+        if(userid!=null||!userid.equals("")){
         //저장 유무를 판단 (영속성 컨텍스트 확인)
-        Cafe beforeSaveCafe = new Cafe(requestDto);
-        Cafe SaveCafe = cafeRepository.save(beforeSaveCafe);
+        Cafe beforeSaveCafe = new Cafe(cafeRequestDto);
+        cafeRepository.save(beforeSaveCafe);
         return true;
+        }
+        return false;
     }
 
     //전체조회
@@ -42,12 +59,19 @@ public class CafeService {
 
     //수정
     @Transactional
-    public Boolean update(Long cafeid, CafeUpdateDto requestDto, String userid) {
+    public Boolean update(Long cafeid,
+                          CafeUpdateDto cafeRequestDto,
+                          MultipartFile file,
+                          UserDetailsImpl userDetails) {
+        String userid = userDetails.getUsername();
+        String imgPath = s3Service.upload(file, cafeRequestDto.getImgUrl());
+
+        cafeRequestDto.setImgUrl(imgPath);
         Cafe cafe = cafeRepository.findById(cafeid).orElseThrow(
                 () -> new IllegalArgumentException("카페가 존재하지 않습니다.")
         );
         if (cafe.getUserid().equals(userid)) {
-            cafe.update(requestDto);
+            cafe.update(cafeRequestDto);
             return true;
         }
         return false;
