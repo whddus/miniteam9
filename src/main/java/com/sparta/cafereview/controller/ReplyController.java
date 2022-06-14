@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Slf4j
-@RequestMapping("/cafe")
 @RequiredArgsConstructor
 @RestController
 public class ReplyController {
@@ -20,13 +19,13 @@ public class ReplyController {
     private final ReplyService replyService;
 
     // 댓글 전체 조회
-    @GetMapping("/{cafeid}/reply/list")
+    @GetMapping("/reply/list/{cafeid}")
     private List<ReplyResponseDto> getReply(@PathVariable Long cafeid) {
         return replyService.getReply(cafeid);
     }
 
     //댓글 작성
-    @PostMapping("/{cafeid}/reply/save")
+    @PostMapping("/reply/{cafeid}")
     public boolean createReply(@PathVariable Long cafeid,
                                @RequestBody ReplyRequestDto replyRequestDto,
                                @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -44,7 +43,7 @@ public class ReplyController {
     }
 
     //댓글 수정
-    @PatchMapping("/{cafeid}/reply/{replyid}/update")
+    @PatchMapping("/reply/{cafeid}/{replyid}")
     public boolean updateReply(@PathVariable Long cafeid,
                                @PathVariable Long replyid,
                                @RequestBody ReplyRequestDto requestDto,
@@ -62,7 +61,7 @@ public class ReplyController {
     }
 
     //댓글 삭제
-    @DeleteMapping("{cafeid}/reply/{replyid}/delete")
+    @DeleteMapping("/reply/{cafeid}/{replyid}")
     public boolean deleteReply(@PathVariable Long replyid,
                                @PathVariable Long cafeid,
                                @AuthenticationPrincipal UserDetailsImpl userDetails) {

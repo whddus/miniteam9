@@ -23,7 +23,7 @@ public class CafeController {
     private final S3Service s3Service;
 
     //저장
-    @PostMapping("/cafe/save")
+    @PostMapping("/cafereview")
     public Boolean saveCafe(@RequestPart("post-data") CafeRequestDto cafeRequestDto,
                             @RequestPart("img") MultipartFile file,
                             @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -39,14 +39,14 @@ public class CafeController {
         return cafe;
     }
 
-    //전체조회
-    @GetMapping("/cafe/list")
+    //전체 조회
+    @GetMapping("/cafereview/list")
     public List<CafeResponseDto> getCafeList() {
         return cafeService.getCafeList();
     }
 
     //수정
-    @PatchMapping("/cafe/{cafeid}/update")
+    @PatchMapping("/cafereview/{cafeid}")
     public boolean updateCafe(@PathVariable Long cafeid,
                               @RequestPart("post-data") CafeUpdateDto cafeRequestDto,
                               @RequestPart("img") MultipartFile file,
@@ -60,15 +60,15 @@ public class CafeController {
         return result;
     }
 
-    //원두별로 카페리뷰 검색
-    @PostMapping("/cafe/{coffeebeanname}/search")
+    //카페리뷰 카테고리별 조회
+    @PostMapping("/cafereview/list/{coffeebeanname}")
     public List<CafeResponseDto> getContents(@PathVariable String coffeebeanname) {
         List<CafeResponseDto> cafe = cafeService.sortByCoffeebeanname(coffeebeanname);
         return cafe;
     }
 
     //삭제
-    @DeleteMapping("/cafe/{cafeid}/delete")
+    @DeleteMapping("/cafereview/{cafeid}")
     public Boolean deleteCafe(@PathVariable Long cafeid,@AuthenticationPrincipal UserDetailsImpl userDetails) {
         String userid = userDetails.getUsername();
         Boolean result = cafeService.deleteCafe(cafeid, userid);
@@ -76,7 +76,7 @@ public class CafeController {
     }
 
     //상세조회
-    @GetMapping("/cafe/{cafeid}")
+    @GetMapping("/cafereview/list/{cafeid}")
     public CafeDetailResponseDto getCafe(@PathVariable Long cafeid) {
         return cafeService.getCafe(cafeid);
     }
