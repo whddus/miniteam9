@@ -38,7 +38,7 @@ public class UserService {
         } else if (!singUpData.getUserid().matches("^[a-zA-Z\\d]+@[a-zA-Z\\d]+.[a-z]+$")) {
             throw new IllegalArgumentException("아이디 형식을 확인해 주세요");
         }
-        
+
         if(singUpData.getNickname() == null){
             throw new IllegalArgumentException("닉네임을 입력해 주세요");
         } else if (singUpData.getNickname().equals("")) {
@@ -46,7 +46,7 @@ public class UserService {
         } else if (!singUpData.getNickname().matches("^[가-힣a-zA-Z]+$")) {
             throw new IllegalArgumentException("닉네임 형식을 확인해 주세요");
         }
-        
+
         if(singUpData.getPassword() == null){
             throw new IllegalArgumentException("비밀번호를 입력해 주세요");
         } else if (singUpData.getPassword().equals("")) {
