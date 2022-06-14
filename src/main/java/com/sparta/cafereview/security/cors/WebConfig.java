@@ -22,8 +22,8 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
 
                 // 주소 수정 부분
-                .allowedOrigins("http://localhost:3000", "https://s3.ap-northeast-2.amazonaws.com/springboot-db")
-                .allowedMethods("POST", "GET", "PUT", "DELETE", "HEAD", "OPTIONS")
+                .allowedOrigins("http://localhost:3000", "https://s3.ap-northeast-2.amazonaws.com/springboot-db", "https://s3.ap-northeast-2.amazonaws.com/miniproject-coffeebara")
+                .allowedMethods("POST", "GET","PATCH", "DELETE", "HEAD", "OPTIONS")
                 .allowCredentials(true);
     }
 
