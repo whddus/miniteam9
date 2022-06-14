@@ -28,8 +28,9 @@ public class CafeController {
                             @RequestPart("img") MultipartFile file,
                             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         String userid = userDetails.getUsername();
+        String nickname = userDetails.getNickname();
         cafeRequestDto.setUserid(userid);
-
+        cafeRequestDto.setNickname(nickname);
         //이미지 경로를 받아온다.
         String imgPath = s3Service.upload(file);
 

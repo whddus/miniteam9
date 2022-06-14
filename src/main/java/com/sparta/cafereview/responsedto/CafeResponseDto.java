@@ -11,4 +11,6 @@ public class CafeResponseDto {
     private String cafename;
     private String imgUrl;
     private String cafereview;
+    private String userid;
+    private String nickname;
 }
