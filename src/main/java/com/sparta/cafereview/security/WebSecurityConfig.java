@@ -64,9 +64,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // login 없이 접근 허용 하는 url
                 .antMatchers("/").permitAll()
                 .antMatchers("/user/**").permitAll()
-                .antMatchers("/cafe/list/").permitAll()
-                .antMatchers("/cafe/{cafeid}").permitAll()
-                .antMatchers("/cafe/{cafeid}/reply/list").permitAll()
+                .antMatchers("/cafereview/list/**").permitAll()
+                .antMatchers("/reply/list/**").permitAll()
                 .antMatchers("/images/**").permitAll()
                 .antMatchers("/css/**").permitAll()
                 // '/admin'의 경우 ADMIN 권한이 있는 사용자만 접근이 가능
