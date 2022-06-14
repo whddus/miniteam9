@@ -17,12 +17,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 public class CafeController {
-
-
     private final CafeService cafeService;
     private final S3Service s3Service;
 
-//    저장
+    //저장
     @PostMapping("/cafereview")
     public Boolean saveCafe(@RequestPart("post-data") CafeRequestDto cafeRequestDto,
                             @RequestPart("img") MultipartFile file,
@@ -43,23 +41,20 @@ public class CafeController {
                               @RequestPart("post-data") CafeUpdateDto cafeRequestDto,
                               @RequestPart("img") MultipartFile file,
                               @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        boolean result = cafeService.update(cafeid, cafeRequestDto,file,userDetails);
-        return result;
+        return cafeService.update(cafeid, cafeRequestDto,file,userDetails);
     }
 
     //카페리뷰 카테고리별 조회
     @PostMapping("/cafereview/list/{coffeebeanname}")
     public List<CafeResponseDto> getContents(@PathVariable String coffeebeanname) {
-        List<CafeResponseDto> cafe = cafeService.sortByCoffeebeanname(coffeebeanname);
-        return cafe;
+        return cafeService.sortByCoffeebeanname(coffeebeanname);
     }
 
     //삭제
     @DeleteMapping("/cafereview/{cafeid}")
-    public Boolean deleteCafe(@PathVariable Long cafeid,@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public boolean deleteCafe(@PathVariable Long cafeid, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         String userid = userDetails.getUsername();
-        Boolean result = cafeService.deleteCafe(cafeid, userid);
-        return result;
+        return cafeService.deleteCafe(cafeid, userid);
     }
 
     //상세조회

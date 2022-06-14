@@ -18,22 +18,21 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @RequiredArgsConstructor
 @Service
 public class CafeService {
     private final CafeRepository cafeRepository;
-
     private final ReplyRepository replyRepository;
-
     private final S3Service s3Service;
 
 
-    //저장
+    //카페리뷰 저장
     @Transactional
     public boolean saveCafe(CafeRequestDto cafeRequestDto, MultipartFile file, UserDetailsImpl userDetails) {
         String userid = userDetails.getUsername();
+        String nickname = userDetails.getNickname();
         cafeRequestDto.setUserid(userid);
+        cafeRequestDto.setNickname(nickname);
 
         //이미지 경로를 받아온다.
         String imgPath = s3Service.upload(file);
@@ -53,13 +52,12 @@ public class CafeService {
 
     //전체조회
     public List<CafeResponseDto> getCafeList() {
-        List<CafeResponseDto> cafeList = cafeRepository.findAllByOrderByIdDesc();
-        return cafeList;
+        return cafeRepository.findAllByOrderByIdDesc();
     }
 
     //수정
     @Transactional
-    public Boolean update(Long cafeid,
+    public boolean update(Long cafeid,
                           CafeUpdateDto cafeRequestDto,
                           MultipartFile file,
                           UserDetailsImpl userDetails) {
@@ -79,12 +77,11 @@ public class CafeService {
 
     //검색
     public List<CafeResponseDto> sortByCoffeebeanname(String coffeebeanname) {
-        List<CafeResponseDto> cafe = cafeRepository.findAllByCoffeebeannameOrderByIdDesc(coffeebeanname);
-        return cafe;
+        return cafeRepository.findAllByCoffeebeannameOrderByIdDesc(coffeebeanname);
     }
 
     //삭제
-    public Boolean deleteCafe(Long cafeid, String userid) {
+    public boolean deleteCafe(Long cafeid, String userid) {
         Cafe cafe = cafeRepository.findById(cafeid).orElseThrow(
                 () -> new IllegalArgumentException("카페가 존재하지 않습니다.")
         );
@@ -103,11 +100,12 @@ public class CafeService {
         //등록카페조회
         Cafe cafe = cafeRepository.findById(cafeid).orElseThrow(
                 () -> new NullPointerException("카페리뷰가 존재하지 않습니다."));
-        String cafename = cafe.getCafename();
 
         //List<CafeDetailReplyResponseDto> reply = replyRepository.findAllByCafeid(cafeid);
         List<Reply> reply = replyRepository.findAllByCafeid(cafeid);
-        List<CafeDetailReplyResponseDto> detail = reply.stream().map(CafeDetailReplyResponseDto::new).collect(Collectors.toList());
+        List<CafeDetailReplyResponseDto> detail = reply.stream()
+                                                            .map(CafeDetailReplyResponseDto::new)
+                                                            .collect(Collectors.toList());
 
         return new CafeDetailResponseDto(cafe.getCoffeebeanname(), cafe.getCafename(), cafe.getImgUrl(),
                 cafe.getCafereview(), detail
