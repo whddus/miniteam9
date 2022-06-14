@@ -27,8 +27,7 @@ public class CafeController {
     public Boolean saveCafe(@RequestPart("post-data") CafeRequestDto cafeRequestDto,
                             @RequestPart("img") MultipartFile file,
                             @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        boolean cafe = cafeService.saveCafe(cafeRequestDto,file,userDetails);
-        return cafe;
+        return cafeService.saveCafe(cafeRequestDto,file,userDetails);
     }
 
 

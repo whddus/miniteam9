@@ -24,6 +24,8 @@ public class Cafe {
     private String cafereview;
     @Column(nullable = false)
     private String userid;
+    @Column(nullable = false)
+    private String nickname;
 
     public Cafe(CafeRequestDto requestDto){
         this.cafename = requestDto.getCafename();
@@ -31,6 +33,7 @@ public class Cafe {
         this.imgUrl = requestDto.getImgUrl();
         this.cafereview = requestDto.getCafereview();
         this.userid = requestDto.getUserid();
+        this.nickname = requestDto.getNickname();
     }
 
     public void update(CafeUpdateDto requestDto) {

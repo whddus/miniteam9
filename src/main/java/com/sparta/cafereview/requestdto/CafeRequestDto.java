@@ -12,4 +12,5 @@ public class CafeRequestDto {
     private String cafereview;
     private String userid;
     private String imgUrl;
+    private String nickname;
 }
