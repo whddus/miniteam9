@@ -6,10 +6,13 @@ import com.sparta.cafereview.responsedto.CafeDetailResponseDto;
 import com.sparta.cafereview.responsedto.CafeResponseDto;
 import com.sparta.cafereview.security.UserDetailsImpl;
 import com.sparta.cafereview.service.CafeService;
-import com.sparta.cafereview.service.S3Service;
+
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -18,45 +21,54 @@ import java.util.List;
 @RestController
 public class CafeController {
     private final CafeService cafeService;
-    private final S3Service s3Service;
 
-    //저장
+    //카페리뷰 저장
     @PostMapping("/cafereview")
     public Boolean saveCafe(@RequestPart("post-data") CafeRequestDto cafeRequestDto,
-                            @RequestPart("img") MultipartFile file,
+                            @RequestPart("img") MultipartFile imgfile,
                             @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return cafeService.saveCafe(cafeRequestDto,file,userDetails);
+        return cafeService.saveCafe(cafeRequestDto,imgfile,userDetails);
     }
 
-    //전체 조회
+    //카페리뷰 전체 조회
     @GetMapping("/cafereview/list")
     public List<CafeResponseDto> getCafeList() {
         return cafeService.getCafeList();
     }
 
-    //수정
+    //카페리뷰 페이징 적용 전체 조회
+    @GetMapping("/cafereview/list/pageing")
+    public Page<CafeResponseDto> getCafePageList(@RequestParam("page") int page,
+                                                 @RequestParam("size") int size,
+                                                 @RequestParam("sortBy") String sortBy,
+                                                 @RequestParam("isAsc") boolean isAsc) {
+        page = page -1;
+        return cafeService.getCafePageList(page,size,sortBy,isAsc);
+    }
+
+    //카페리뷰 수정
     @PatchMapping("/cafereview/{cafeid}")
     public boolean updateCafe(@PathVariable Long cafeid,
                               @RequestPart("post-data") CafeUpdateDto cafeRequestDto,
-                              @RequestPart("img") MultipartFile file,
+                              @RequestPart("img") MultipartFile imgfile,
                               @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return cafeService.update(cafeid, cafeRequestDto,file,userDetails);
+        return cafeService.updateCafe(cafeid, cafeRequestDto,imgfile,userDetails);
     }
 
     //카페리뷰 카테고리별 조회
     @GetMapping("/cafereview/list/{coffeebeanname}")
-    public List<CafeResponseDto> getContents(@PathVariable String coffeebeanname) {
-        return cafeService.sortByCoffeebeanname(coffeebeanname);
+    public List<CafeResponseDto> getContentsSortByCoffeebeanname(@PathVariable String coffeebeanname) {
+        return cafeService.getContentsSortByCoffeebeanname(coffeebeanname);
     }
 
-    //삭제
+    //카페리뷰 삭제
     @DeleteMapping("/cafereview/{cafeid}")
     public boolean deleteCafe(@PathVariable Long cafeid, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         String userid = userDetails.getUsername();
         return cafeService.deleteCafe(cafeid, userid);
     }
 
-    //상세조회
+    //카페리뷰 상세조회
     @GetMapping("/cafereview/list/detail/{cafeid}")
     public CafeDetailResponseDto getCafe(@PathVariable Long cafeid) {
         return cafeService.getCafe(cafeid);

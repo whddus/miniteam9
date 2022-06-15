@@ -12,6 +12,7 @@ public class CafeDetailResponseDto {
         private String cafename;
         private String imgUrl;
         private String cafereview;
+        private int likecafenumber;
         private List<CafeDetailReplyResponseDto> reply;
 
 

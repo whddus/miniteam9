@@ -10,9 +10,17 @@ import com.sparta.cafereview.responsedto.CafeDetailReplyResponseDto;
 import com.sparta.cafereview.responsedto.CafeDetailResponseDto;
 import com.sparta.cafereview.responsedto.CafeResponseDto;
 import com.sparta.cafereview.security.UserDetailsImpl;
+
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
 import org.springframework.transaction.annotation.Transactional;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -28,21 +36,14 @@ public class CafeService {
 
     //카페리뷰 저장
     @Transactional
-    public boolean saveCafe(CafeRequestDto cafeRequestDto, MultipartFile file, UserDetailsImpl userDetails) {
+    public boolean saveCafe(CafeRequestDto cafeRequestDto, MultipartFile imgfile, UserDetailsImpl userDetails) {
         String userid = userDetails.getUsername();
         String nickname = userDetails.getNickname();
         cafeRequestDto.setUserid(userid);
         cafeRequestDto.setNickname(nickname);
-
-        //이미지 경로를 받아온다.
-        String imgPath = s3Service.upload(file);
-
-        //Dto에 담아준뒤 , 서비스 로직에 넘긴다.
+        String imgPath = s3Service.upload(imgfile);
         cafeRequestDto.setImgUrl(imgPath);
-
-        //userid 있는지 판단
         if(userid!=null||!userid.equals("")){
-        //저장 유무를 판단 (영속성 컨텍스트 확인)
         Cafe beforeSaveCafe = new Cafe(cafeRequestDto);
         cafeRepository.save(beforeSaveCafe);
         return true;
@@ -50,19 +51,28 @@ public class CafeService {
         return false;
     }
 
-    //전체조회
+    //카페리뷰 전체조회
     public List<CafeResponseDto> getCafeList() {
         return cafeRepository.findAllByOrderByIdDesc();
     }
 
-    //수정
+    //카페리뷰 페이징적용 전체조회
+    public Page<CafeResponseDto> getCafePageList(int page, int size, String sortBy, boolean isAsc) {
+        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return cafeRepository.findAllByPageOrderByIdDesc(pageable);
+    }
+
+
+    //카페리뷰 수정
     @Transactional
-    public boolean update(Long cafeid,
+    public boolean updateCafe(Long cafeid,
                           CafeUpdateDto cafeRequestDto,
-                          MultipartFile file,
+                          MultipartFile imgfile,
                           UserDetailsImpl userDetails) {
         String userid = userDetails.getUsername();
-        String imgPath = s3Service.upload(file, cafeRequestDto.getImgUrl());
+        String imgPath = s3Service.upload(imgfile, cafeRequestDto.getImgUrl());
 
         cafeRequestDto.setImgUrl(imgPath);
         Cafe cafe = cafeRepository.findById(cafeid).orElseThrow(
@@ -75,12 +85,12 @@ public class CafeService {
         return false;
     }
 
-    //검색
-    public List<CafeResponseDto> sortByCoffeebeanname(String coffeebeanname) {
+    //카페리뷰 커피빈별 검색
+    public List<CafeResponseDto> getContentsSortByCoffeebeanname(String coffeebeanname) {
         return cafeRepository.findAllByCoffeebeannameOrderByIdDesc(coffeebeanname);
     }
 
-    //삭제
+    //카페리뷰 삭제
     public boolean deleteCafe(Long cafeid, String userid) {
         Cafe cafe = cafeRepository.findById(cafeid).orElseThrow(
                 () -> new IllegalArgumentException("카페가 존재하지 않습니다.")
@@ -93,7 +103,7 @@ public class CafeService {
         return false;
     }
 
-    //상세조회
+    //카페리뷰 상세조회
     @Transactional
     public CafeDetailResponseDto getCafe(Long cafeid) {
 
@@ -108,7 +118,7 @@ public class CafeService {
                                                             .collect(Collectors.toList());
 
         return new CafeDetailResponseDto(cafe.getCoffeebeanname(), cafe.getCafename(), cafe.getImgUrl(),
-                cafe.getCafereview(), detail
+                cafe.getCafereview(),cafe.getLikecafenumber(), detail
         );
     }
 

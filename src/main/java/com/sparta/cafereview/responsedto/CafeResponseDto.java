@@ -13,4 +13,5 @@ public class CafeResponseDto {
     private String cafereview;
     private String userid;
     private String nickname;
+    private int likecafenumber;
 }
