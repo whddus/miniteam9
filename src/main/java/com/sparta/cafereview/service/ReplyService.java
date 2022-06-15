@@ -22,7 +22,7 @@ public class ReplyService {
     private final ReplyRepository replyRepository;
 
 
-    // 댓글 작성
+    //댓글 작성
     public boolean saveReply(ReplyRequestDto replyRequestDto) {
         Reply beforeSaveReply = new Reply(replyRequestDto);
         Reply savedReply = replyRepository.save(beforeSaveReply);
@@ -49,7 +49,7 @@ public class ReplyService {
         return replyRepository.findAllByCafeid(cafeid, pageable);
     }
 
-    // 댓글 수정
+    //댓글 수정
     public boolean update(Long cafeid, Long replyid, ReplyRequestDto replyRequestDto) {
         Reply reply = replyRepository.findByCafeidAndId(cafeid, replyid);
 
