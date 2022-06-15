@@ -45,10 +45,10 @@ public class ReplyController {
     //댓글 전체 조회(페이징 적용)
     @GetMapping("/reply/list/paging/{cafeid}")
     private Page<Reply> getListPagingReply(@RequestParam("page") int page,
-                                            @RequestParam("size") int size,
-                                            @RequestParam("sortBy") String sortBy,
-                                            @PathVariable Long cafeid) {
-        page = page -1;
+                                           @RequestParam("size") int size,
+                                           @RequestParam("sortBy") String sortBy,
+                                           @PathVariable Long cafeid) {
+        page = page - 1;
         return replyService.getListPagingReply(page, size, sortBy, cafeid);
     }
 
