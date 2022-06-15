@@ -1,6 +1,6 @@
 package com.sparta.cafereview.security;
 
-import com.sparta.cafereview.model.Role;
+import com.sparta.cafereview.model.UserRoleEnum;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -48,7 +48,7 @@ public class JwtTokenProvider {
 
         Map<String, Object> claims = new HashMap<>();
 
-        val isAdmin = userDetails.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_"+ Role.ADMIN));
+        val isAdmin = userDetails.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_" + UserRoleEnum.ADMIN));
         if (isAdmin) {
             claims.put("Role","ADMIN");
         } else {
