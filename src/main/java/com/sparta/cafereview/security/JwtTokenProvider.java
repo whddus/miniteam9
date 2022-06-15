@@ -35,7 +35,7 @@ public class JwtTokenProvider {
     // jwt 시크릿 키
     private String secretKey = "AcafereviewZ";
 
-    // 토큰 유효시간 30분
+    // 토큰 유효시간 60분
     private long tokenValidTime = 60 * 60 * 1000L;
 
     // 객체 초기화, secretKey를 Base64로 인코딩

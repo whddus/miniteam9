@@ -1,11 +1,7 @@
 package com.sparta.cafereview.model;
-
-
 import com.sparta.cafereview.requestdto.ReplyRequestDto;
 import lombok.*;
-
 import javax.persistence.*;
-
 
 @Getter
 @NoArgsConstructor
@@ -23,14 +19,6 @@ public class Reply {
     @Column(nullable = false)
     private String userid;
 
-    public Reply(ReplyRequestDto requestDto, String userid, Long cafeid, String reply){
-        this.reply = reply;
-        this.cafeid = cafeid;
-        this.nickname = requestDto.getNickname();
-        this.userid = userid;
-
-    }
-
     public Reply(ReplyRequestDto replyRequestDto){
         this.userid = replyRequestDto.getUserid();
         this.cafeid = replyRequestDto.getCafeid();
@@ -38,9 +26,7 @@ public class Reply {
         this.nickname = replyRequestDto.getNickname();
     }
 
-
     public void update(ReplyRequestDto requestDto){
         this.reply = requestDto.getReply();
     }
-
 }

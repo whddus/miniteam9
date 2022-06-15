@@ -21,7 +21,6 @@ import java.util.List;
 @RestController
 public class CafeController {
     private final CafeService cafeService;
-    private final S3Service s3Service;
 
     //저장
     @PostMapping("/cafereview")
@@ -30,7 +29,6 @@ public class CafeController {
                             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return cafeService.saveCafe(cafeRequestDto,imgfile,userDetails);
     }
-
 
     //전체 조회
     @GetMapping("/cafereview/list")

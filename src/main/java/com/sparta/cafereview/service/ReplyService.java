@@ -6,10 +6,13 @@ import com.sparta.cafereview.requestdto.ReplyRequestDto;
 import com.sparta.cafereview.responsedto.ReplyResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -18,49 +21,60 @@ import java.util.stream.Collectors;
 public class ReplyService {
     private final ReplyRepository replyRepository;
 
-    // 댓글 조회
-    public List<ReplyResponseDto> getReply(Long cafeid) {
-        List<Reply> replies = replyRepository.findAllByCafeid(cafeid);
-        List<ReplyResponseDto> list = replies.stream().map(ReplyResponseDto::new).collect(Collectors.toList());
-        return list;
-    }
+
     // 댓글 작성
-    public boolean createReply(ReplyRequestDto replyRequestDto){
-        //저장 유무를 판단 (영속성 컨텍스트 확인)
+    public boolean saveReply(ReplyRequestDto replyRequestDto) {
         Reply beforeSaveReply = new Reply(replyRequestDto);
-        Reply SaveReply = replyRepository.save(beforeSaveReply);
-        log.info("댓글 작성 완료하였습니다." + SaveReply);
-        return true;
-    }
+        Reply savedReply = replyRepository.save(beforeSaveReply);
+        Reply checkReply = replyRepository.findById(savedReply.getId()).orElse(null);
 
-
-    // 댓글 업데이트
-    public boolean update(Long replyid, ReplyRequestDto requestDto, String nickname, String userid, Long cafeid){
-        Reply reply = replyRepository.findById(replyid).orElseThrow(
-                () -> new IllegalArgumentException("댓글이 존재하지 않습니다.")
-        );
-        String writerId = reply.getUserid();
-        if(Objects.equals(writerId, userid)){
-            reply.update(requestDto);
-            replyRepository.save(reply);
-            log.info("댓글 수정 완료" + reply);
+        if (savedReply.equals(checkReply)) {
+            log.info("댓글 작성 완료하였습니다." + savedReply);
             return true;
         }
-        log.info("작성한 유저가 아닙니다.");
+        log.info("댓글 작성 실패하였습니다." + beforeSaveReply);
         return false;
     }
+
+    //댓글 전체 조회
+    public List<ReplyResponseDto> getListReply(Long cafeid) {
+        List<Reply> replies = replyRepository.findAllByCafeid(cafeid);
+        return replies.stream().map(ReplyResponseDto::new).collect(Collectors.toList());
+    }
+
+    //댓글 전체 조회(페이징 적용)
+    public Page<Reply> getListPageingReply(int page, int size, String sortBy, boolean isAsc, Long cafeid) {
+        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return replyRepository.findAllByCafeidPage(cafeid, pageable);
+    }
+
+    // 댓글 수정
+    public boolean update(Long cafeid, Long replyid, ReplyRequestDto replyRequestDto) {
+        Reply reply = replyRepository.findByCafeidAndId(cafeid, replyid);
+
+        if (reply.getUserid().equals(replyRequestDto.getUserid())) {
+            reply.update(replyRequestDto);
+            Long BeforeSaveReplyId = reply.getId();
+            Reply savedReply = replyRepository.save(reply);
+            log.info("댓글 수정 완료" + savedReply);
+            return BeforeSaveReplyId.equals(savedReply.getId());
+        }
+        log.info("댓글 수정 실패" + reply);
+        return false;
+    }
+
     //댓글 삭제
-    public boolean deleteReply(Long replyid, String userid, Long cafeid){
-        String writeId = replyRepository.findById(replyid).orElseThrow(
-                () -> new IllegalArgumentException("댓글이 존재하지 않습니다.")
-        ).getUserid();
-        if(Objects.equals(writeId, userid)){
+    public boolean deleteReply(Long cafeid, Long replyid, String userid) {
+        Reply reply = replyRepository.findByCafeidAndId(cafeid, replyid);
+
+        if (reply.getUserid().equals(userid)) {
             replyRepository.deleteById(replyid);
-            List<Reply> replies = replyRepository.findAllByCafeid(cafeid);
-            log.info("댓글 삭제 완료" + replies);
+            log.info("댓글 삭제 완료");
             return true;
         }
-        log.info("작성한 유저가 아닙니다.");
+        log.info("댓글 삭제 실패" + reply);
         return false;
     }
 }

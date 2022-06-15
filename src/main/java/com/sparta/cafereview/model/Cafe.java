@@ -26,6 +26,8 @@ public class Cafe {
     private String userid;
     @Column(nullable = false)
     private String nickname;
+    @Column(nullable = false)
+    private int likecafenumber = 0;
 
     public Cafe(CafeRequestDto requestDto){
         this.cafename = requestDto.getCafename();
@@ -43,4 +45,11 @@ public class Cafe {
         this.cafereview = requestDto.getCafereview();
     }
 
+    public void likecafe(){
+        this.likecafenumber++;
+    }
+
+    public void unlikecafe(){
+        this.likecafenumber--;
+    }
 }
