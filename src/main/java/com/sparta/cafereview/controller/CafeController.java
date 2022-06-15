@@ -9,6 +9,7 @@ import com.sparta.cafereview.service.CafeService;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +34,16 @@ public class CafeController {
     @GetMapping("/cafereview/list")
     public List<CafeResponseDto> getCafeList() {
         return cafeService.getCafeList();
+    }
+
+    //카페리뷰 페이징 적용 전체 조회
+    @GetMapping("/cafereview/list/pageing")
+    public Page<CafeResponseDto> getCafePageList(@RequestParam("page") int page,
+                                                 @RequestParam("size") int size,
+                                                 @RequestParam("sortBy") String sortBy,
+                                                 @RequestParam("isAsc") boolean isAsc) {
+        page = page -1;
+        return cafeService.getCafePageList(page,size,sortBy,isAsc);
     }
 
     //카페리뷰 수정
