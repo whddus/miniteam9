@@ -1,5 +1,6 @@
 package com.sparta.cafereview.model;
 import com.sparta.cafereview.requestdto.ReplyRequestDto;
+import com.sparta.cafereview.validator.ReplyValidator;
 import lombok.*;
 import javax.persistence.*;
 
@@ -20,13 +21,19 @@ public class Reply {
     private String userid;
 
     public Reply(ReplyRequestDto replyRequestDto){
+
+        ReplyValidator.validateReplyInput(replyRequestDto);
+
         this.userid = replyRequestDto.getUserid();
         this.cafeid = replyRequestDto.getCafeid();
         this.reply = replyRequestDto.getReply();
         this.nickname = replyRequestDto.getNickname();
     }
 
-    public void update(ReplyRequestDto requestDto){
-        this.reply = requestDto.getReply();
+    public void update(ReplyRequestDto replyRequestDto){
+
+        ReplyValidator.validateReplyInput(replyRequestDto);
+
+        this.reply = replyRequestDto.getReply();
     }
 }
