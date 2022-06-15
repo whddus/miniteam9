@@ -1,10 +1,7 @@
 package com.sparta.cafereview.security;
 
-import com.sparta.cafereview.model.Role;
 import com.sparta.cafereview.model.User;
-
-import lombok.AllArgsConstructor;
-
+import com.sparta.cafereview.model.UserRoleEnum;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,25 +9,37 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 
-@AllArgsConstructor
+//@AllArgsConstructor
 public class UserDetailsImpl implements UserDetails {
-    private static final String ROLE_PREFIX = "ROLE_";
     private final User user;
 //    private Long id;
 //    private String userid;
-//    private Role role;
+//    private String nickname;
+//    private UserRoleEnum role;
+
+    public UserDetailsImpl(User user) {
+        this.user = user;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public String getNickname() {
+        return user.getNickname();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Role role = user.getRole();
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(ROLE_PREFIX + role.toString());
+        UserRoleEnum role = user.getRole();
+        String authority = role.getAuthority();
 
+        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(authority);
         Collection<GrantedAuthority> authorities = new ArrayList<>(); //List인 이유 : 여러개의 권한을 가질 수 있다
-        authorities.add(authority);
+        authorities.add(simpleGrantedAuthority);
 
         return authorities;
     }
-
 
     @Override
     public String getPassword() {
@@ -40,10 +49,6 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public String getUsername() {
         return user.getUserid();
-    }
-
-    public String getNickname() {
-        return user.getNickname();
     }
 
     @Override
