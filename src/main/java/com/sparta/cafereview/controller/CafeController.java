@@ -7,9 +7,12 @@ import com.sparta.cafereview.responsedto.CafeResponseDto;
 import com.sparta.cafereview.security.UserDetailsImpl;
 import com.sparta.cafereview.service.CafeService;
 import com.sparta.cafereview.service.S3Service;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -23,9 +26,9 @@ public class CafeController {
     //저장
     @PostMapping("/cafereview")
     public Boolean saveCafe(@RequestPart("post-data") CafeRequestDto cafeRequestDto,
-                            @RequestPart("img") MultipartFile file,
+                            @RequestPart("img") MultipartFile imgfile,
                             @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return cafeService.saveCafe(cafeRequestDto,file,userDetails);
+        return cafeService.saveCafe(cafeRequestDto,imgfile,userDetails);
     }
 
 
@@ -39,15 +42,15 @@ public class CafeController {
     @PatchMapping("/cafereview/{cafeid}")
     public boolean updateCafe(@PathVariable Long cafeid,
                               @RequestPart("post-data") CafeUpdateDto cafeRequestDto,
-                              @RequestPart("img") MultipartFile file,
+                              @RequestPart("img") MultipartFile imgfile,
                               @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return cafeService.update(cafeid, cafeRequestDto,file,userDetails);
+        return cafeService.updateCafe(cafeid, cafeRequestDto,imgfile,userDetails);
     }
 
     //카페리뷰 카테고리별 조회
-    @PostMapping("/cafereview/list/{coffeebeanname}")
-    public List<CafeResponseDto> getContents(@PathVariable String coffeebeanname) {
-        return cafeService.sortByCoffeebeanname(coffeebeanname);
+    @GetMapping("/cafereview/list/{coffeebeanname}")
+    public List<CafeResponseDto> getContentsSortByCoffeebeanname(@PathVariable String coffeebeanname) {
+        return cafeService.getContentsSortByCoffeebeanname(coffeebeanname);
     }
 
     //삭제
@@ -58,7 +61,7 @@ public class CafeController {
     }
 
     //상세조회
-    @GetMapping("/cafereview/list/{cafeid}")
+    @GetMapping("/cafereview/list/detail/{cafeid}")
     public CafeDetailResponseDto getCafe(@PathVariable Long cafeid) {
         return cafeService.getCafe(cafeid);
     }

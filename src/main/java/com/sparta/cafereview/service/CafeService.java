@@ -10,9 +10,13 @@ import com.sparta.cafereview.responsedto.CafeDetailReplyResponseDto;
 import com.sparta.cafereview.responsedto.CafeDetailResponseDto;
 import com.sparta.cafereview.responsedto.CafeResponseDto;
 import com.sparta.cafereview.security.UserDetailsImpl;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
+
 import org.springframework.transaction.annotation.Transactional;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -28,14 +32,14 @@ public class CafeService {
 
     //카페리뷰 저장
     @Transactional
-    public boolean saveCafe(CafeRequestDto cafeRequestDto, MultipartFile file, UserDetailsImpl userDetails) {
+    public boolean saveCafe(CafeRequestDto cafeRequestDto, MultipartFile imgfile, UserDetailsImpl userDetails) {
         String userid = userDetails.getUsername();
         String nickname = userDetails.getNickname();
         cafeRequestDto.setUserid(userid);
         cafeRequestDto.setNickname(nickname);
 
         //이미지 경로를 받아온다.
-        String imgPath = s3Service.upload(file);
+        String imgPath = s3Service.upload(imgfile);
 
         //Dto에 담아준뒤 , 서비스 로직에 넘긴다.
         cafeRequestDto.setImgUrl(imgPath);
@@ -57,12 +61,12 @@ public class CafeService {
 
     //수정
     @Transactional
-    public boolean update(Long cafeid,
+    public boolean updateCafe(Long cafeid,
                           CafeUpdateDto cafeRequestDto,
-                          MultipartFile file,
+                          MultipartFile imgfile,
                           UserDetailsImpl userDetails) {
         String userid = userDetails.getUsername();
-        String imgPath = s3Service.upload(file, cafeRequestDto.getImgUrl());
+        String imgPath = s3Service.upload(imgfile, cafeRequestDto.getImgUrl());
 
         cafeRequestDto.setImgUrl(imgPath);
         Cafe cafe = cafeRepository.findById(cafeid).orElseThrow(
@@ -76,7 +80,7 @@ public class CafeService {
     }
 
     //검색
-    public List<CafeResponseDto> sortByCoffeebeanname(String coffeebeanname) {
+    public List<CafeResponseDto> getContentsSortByCoffeebeanname(String coffeebeanname) {
         return cafeRepository.findAllByCoffeebeannameOrderByIdDesc(coffeebeanname);
     }
 
