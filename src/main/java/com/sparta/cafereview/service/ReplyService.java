@@ -43,9 +43,8 @@ public class ReplyService {
     }
 
     //댓글 전체 조회(페이징 적용)
-    public Page<Reply> getListPageingReply(int page, int size, String sortBy, boolean isAsc, Long cafeid) {
-        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
-        Sort sort = Sort.by(direction, sortBy);
+    public Page<Reply> getListPagingReply(int page, int size, String sortBy, Long cafeid) {
+        Sort sort = Sort.by(Sort.Direction.DESC, sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
         return replyRepository.findAllByCafeidPage(cafeid, pageable);
     }
