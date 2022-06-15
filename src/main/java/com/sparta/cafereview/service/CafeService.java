@@ -11,6 +11,10 @@ import com.sparta.cafereview.responsedto.CafeDetailResponseDto;
 import com.sparta.cafereview.responsedto.CafeResponseDto;
 import com.sparta.cafereview.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -49,12 +53,12 @@ public class CafeService {
     }
 
     //카페리뷰 페이징적용 전체조회
-//    public Page<CafeResponseDto> getCafePageList(int page, int size, String sortBy, boolean isAsc) {
-//        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
-//        Sort sort = Sort.by(direction, sortBy);
-//        Pageable pageable = PageRequest.of(page, size, sort);
-//        return cafeRepository.findAllByPageOrderByIdDesc(pageable);
-//    }
+    public Page<CafeResponseDto> getCafePageList(int page, int size, String sortBy, boolean isAsc) {
+        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return cafeRepository.findAllByOrderByIdDesc(pageable);
+    }
 
 
     //카페리뷰 수정
@@ -110,7 +114,7 @@ public class CafeService {
                                                             .collect(Collectors.toList());
 
         return new CafeDetailResponseDto(cafe.getCoffeebeanname(), cafe.getCafename(), cafe.getImgUrl(),
-                cafe.getCafereview(),cafe.getLikecafenumber(), detail
+                cafe.getCafereview(),cafe.getUserid(),cafe.getNickname(),cafe.getLikecafenumber(), detail
         );
     }
 

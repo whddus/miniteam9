@@ -6,7 +6,9 @@ import com.sparta.cafereview.responsedto.CafeDetailResponseDto;
 import com.sparta.cafereview.responsedto.CafeResponseDto;
 import com.sparta.cafereview.security.UserDetailsImpl;
 import com.sparta.cafereview.service.CafeService;
+import com.sparta.cafereview.validator.CafeValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +25,7 @@ public class CafeController {
     public Boolean saveCafe(@RequestPart("post-data") CafeRequestDto cafeRequestDto,
                             @RequestPart("img") MultipartFile imgfile,
                             @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        CafeValidator.validateCafeReviewImageInput(imgfile);
         return cafeService.saveCafe(cafeRequestDto,imgfile,userDetails);
     }
 
@@ -33,14 +36,14 @@ public class CafeController {
     }
 
     //카페리뷰 페이징 적용 전체 조회
-//    @GetMapping("/cafereview/list/pageing")
-//    public Page<CafeResponseDto> getCafePageList(@RequestParam("page") int page,
-//                                                 @RequestParam("size") int size,
-//                                                 @RequestParam("sortBy") String sortBy,
-//                                                 @RequestParam("isAsc") boolean isAsc) {
-//        page = page -1;
-//        return cafeService.getCafePageList(page,size,sortBy,isAsc);
-//    }
+    @GetMapping("/cafereview/list/pageing")
+    public Page<CafeResponseDto> getCafePageList(@RequestParam("page") int page,
+                                                 @RequestParam("size") int size,
+                                                 @RequestParam("sortBy") String sortBy,
+                                                 @RequestParam("isAsc") boolean isAsc) {
+        page = page -1;
+        return cafeService.getCafePageList(page,size,sortBy,isAsc);
+    }
 
     //카페리뷰 수정
     @PatchMapping("/cafereview/{cafeid}")
@@ -48,6 +51,7 @@ public class CafeController {
                               @RequestPart("post-data") CafeUpdateDto cafeRequestDto,
                               @RequestPart("img") MultipartFile imgfile,
                               @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        CafeValidator.validateCafeReviewImageInput(imgfile);
         return cafeService.updateCafe(cafeid, cafeRequestDto,imgfile,userDetails);
     }
 
