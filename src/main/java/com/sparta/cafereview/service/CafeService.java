@@ -37,16 +37,9 @@ public class CafeService {
         String nickname = userDetails.getNickname();
         cafeRequestDto.setUserid(userid);
         cafeRequestDto.setNickname(nickname);
-
-        //이미지 경로를 받아온다.
         String imgPath = s3Service.upload(imgfile);
-
-        //Dto에 담아준뒤 , 서비스 로직에 넘긴다.
         cafeRequestDto.setImgUrl(imgPath);
-
-        //userid 있는지 판단
         if(userid!=null||!userid.equals("")){
-        //저장 유무를 판단 (영속성 컨텍스트 확인)
         Cafe beforeSaveCafe = new Cafe(cafeRequestDto);
         cafeRepository.save(beforeSaveCafe);
         return true;
@@ -54,12 +47,12 @@ public class CafeService {
         return false;
     }
 
-    //전체조회
+    //카페리뷰 전체조회
     public List<CafeResponseDto> getCafeList() {
         return cafeRepository.findAllByOrderByIdDesc();
     }
 
-    //수정
+    //카페리뷰 수정
     @Transactional
     public boolean updateCafe(Long cafeid,
                           CafeUpdateDto cafeRequestDto,
@@ -79,12 +72,12 @@ public class CafeService {
         return false;
     }
 
-    //검색
+    //카페리뷰 커피빈별 검색
     public List<CafeResponseDto> getContentsSortByCoffeebeanname(String coffeebeanname) {
         return cafeRepository.findAllByCoffeebeannameOrderByIdDesc(coffeebeanname);
     }
 
-    //삭제
+    //카페리뷰 삭제
     public boolean deleteCafe(Long cafeid, String userid) {
         Cafe cafe = cafeRepository.findById(cafeid).orElseThrow(
                 () -> new IllegalArgumentException("카페가 존재하지 않습니다.")
@@ -97,7 +90,7 @@ public class CafeService {
         return false;
     }
 
-    //상세조회
+    //카페리뷰 상세조회
     @Transactional
     public CafeDetailResponseDto getCafe(Long cafeid) {
 
@@ -112,7 +105,7 @@ public class CafeService {
                                                             .collect(Collectors.toList());
 
         return new CafeDetailResponseDto(cafe.getCoffeebeanname(), cafe.getCafename(), cafe.getImgUrl(),
-                cafe.getCafereview(), detail
+                cafe.getCafereview(),cafe.getLikecafenumber(), detail
         );
     }
 

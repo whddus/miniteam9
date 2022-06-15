@@ -6,7 +6,6 @@ import com.sparta.cafereview.responsedto.CafeDetailResponseDto;
 import com.sparta.cafereview.responsedto.CafeResponseDto;
 import com.sparta.cafereview.security.UserDetailsImpl;
 import com.sparta.cafereview.service.CafeService;
-import com.sparta.cafereview.service.S3Service;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,7 +21,7 @@ import java.util.List;
 public class CafeController {
     private final CafeService cafeService;
 
-    //저장
+    //카페리뷰 저장
     @PostMapping("/cafereview")
     public Boolean saveCafe(@RequestPart("post-data") CafeRequestDto cafeRequestDto,
                             @RequestPart("img") MultipartFile imgfile,
@@ -30,13 +29,13 @@ public class CafeController {
         return cafeService.saveCafe(cafeRequestDto,imgfile,userDetails);
     }
 
-    //전체 조회
+    //카페리뷰 전체 조회
     @GetMapping("/cafereview/list")
     public List<CafeResponseDto> getCafeList() {
         return cafeService.getCafeList();
     }
 
-    //수정
+    //카페리뷰 수정
     @PatchMapping("/cafereview/{cafeid}")
     public boolean updateCafe(@PathVariable Long cafeid,
                               @RequestPart("post-data") CafeUpdateDto cafeRequestDto,
@@ -51,14 +50,14 @@ public class CafeController {
         return cafeService.getContentsSortByCoffeebeanname(coffeebeanname);
     }
 
-    //삭제
+    //카페리뷰 삭제
     @DeleteMapping("/cafereview/{cafeid}")
     public boolean deleteCafe(@PathVariable Long cafeid, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         String userid = userDetails.getUsername();
         return cafeService.deleteCafe(cafeid, userid);
     }
 
-    //상세조회
+    //카페리뷰 상세조회
     @GetMapping("/cafereview/list/detail/{cafeid}")
     public CafeDetailResponseDto getCafe(@PathVariable Long cafeid) {
         return cafeService.getCafe(cafeid);
