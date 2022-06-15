@@ -46,7 +46,7 @@ public class ReplyService {
     public Page<Reply> getListPagingReply(int page, int size, String sortBy, Long cafeid) {
         Sort sort = Sort.by(Sort.Direction.DESC, sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
-        return replyRepository.findAllByCafeidPage(cafeid, pageable);
+        return replyRepository.findAllByCafeid(cafeid, pageable);
     }
 
     // 댓글 수정
