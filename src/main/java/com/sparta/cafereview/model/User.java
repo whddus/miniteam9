@@ -1,6 +1,7 @@
 package com.sparta.cafereview.model;
 
 import com.sparta.cafereview.requestdto.UserRequestDto;
+import com.sparta.cafereview.validator.UserValidator;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,14 +22,17 @@ public class User {
     @Column(nullable = false)
     private String nickname;
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    @Enumerated(value = EnumType.STRING)
+    private UserRoleEnum role;
 
-    public User(UserRequestDto params){
-        userid = params.getUserid();
-        password = params.getPassword();
-        nickname = params.getNickname();
-        role = Role.USER;
+    public User(UserRequestDto params, UserRoleEnum role){
+
+        UserValidator.validateUserInput(params);
+
+        this.userid = params.getUserid();
+        this.password = params.getPassword();
+        this.nickname = params.getNickname();
+        this.role = role;
     }
 
     public void encryptPassword(PasswordEncoder passwordEncoder) {
