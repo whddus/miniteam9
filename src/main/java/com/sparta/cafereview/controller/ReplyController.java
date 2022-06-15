@@ -43,15 +43,15 @@ public class ReplyController {
     }
 
     //댓글 전체 조회(페이징 적용)
-    @GetMapping("/reply/list/pageing/{cafeid}")
-    private Page<Reply> getListPageingReply(@RequestParam("page") int page,
-                                            @RequestParam("size") int size,
-                                            @RequestParam("sortBy") String sortBy,
-                                            @RequestParam("isAsc") boolean isAsc,
-                                            @PathVariable Long cafeid) {
-        page = page -1;
-        return replyService.getListPageingReply(page, size, sortBy, isAsc, cafeid);
-    }
+//    @GetMapping("/reply/list/pageing/{cafeid}")
+//    private Page<Reply> getListPageingReply(@RequestParam("page") int page,
+//                                            @RequestParam("size") int size,
+//                                            @RequestParam("sortBy") String sortBy,
+//                                            @RequestParam("isAsc") boolean isAsc,
+//                                            @PathVariable Long cafeid) {
+//        page = page -1;
+//        return replyService.getListPageingReply(page, size, sortBy, isAsc, cafeid);
+//    }
 
     //댓글 수정
     @PatchMapping("/reply/{cafeid}/{replyid}")

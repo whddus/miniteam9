@@ -37,14 +37,14 @@ public class CafeController {
     }
 
     //카페리뷰 페이징 적용 전체 조회
-    @GetMapping("/cafereview/list/pageing")
-    public Page<CafeResponseDto> getCafePageList(@RequestParam("page") int page,
-                                                 @RequestParam("size") int size,
-                                                 @RequestParam("sortBy") String sortBy,
-                                                 @RequestParam("isAsc") boolean isAsc) {
-        page = page -1;
-        return cafeService.getCafePageList(page,size,sortBy,isAsc);
-    }
+//    @GetMapping("/cafereview/list/pageing")
+//    public Page<CafeResponseDto> getCafePageList(@RequestParam("page") int page,
+//                                                 @RequestParam("size") int size,
+//                                                 @RequestParam("sortBy") String sortBy,
+//                                                 @RequestParam("isAsc") boolean isAsc) {
+//        page = page -1;
+//        return cafeService.getCafePageList(page,size,sortBy,isAsc);
+//    }
 
     //카페리뷰 수정
     @PatchMapping("/cafereview/{cafeid}")

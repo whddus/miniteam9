@@ -10,5 +10,5 @@ import java.util.List;
 public interface ReplyRepository extends JpaRepository<Reply, Long> {
     Reply findByCafeidAndId(Long cafeid, Long id);
     List<Reply> findAllByCafeid(Long cafeid);
-    Page<Reply> findAllByCafeidPage(Long cafeid, Pageable pageable);
+//    Page<Reply> findAllByCafeidPage(Long cafeid, Pageable pageable);
 }

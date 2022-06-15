@@ -12,7 +12,5 @@ import java.util.List;
 public interface CafeRepository extends JpaRepository<Cafe, Long> {
     List<CafeResponseDto> findAllByOrderByIdDesc();
     List<CafeResponseDto> findAllByCoffeebeannameOrderByIdDesc(String coffeebeanname);
-
-
-    Page<CafeResponseDto> findAllByPageOrderByIdDesc(Pageable pageable);
+//    Page<CafeResponseDto> findAllByPageOrderByIdDesc(Pageable pageable);
 }
