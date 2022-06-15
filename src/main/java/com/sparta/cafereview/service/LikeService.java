@@ -32,9 +32,16 @@ public class LikeService {
         if(likecheck != null){
             Cafe unlikeupcafe = cafeRepository.findById(cafeid).orElse(null);
             unlikeupcafe.unlikecafe();
-            likeRepository.delete(likeRepository.findByUseridAndCafeid(userid, cafeid).orElseThrow(() -> new NullPointerException("좋아요를 하지 않았습니다.")));
+            likeRepository.delete(likeRepository.findByUseridAndCafeid(userid, cafeid).orElseThrow(
+                    () -> new NullPointerException("좋아요를 하지 않았습니다.")));
             return true;
         }
         return false;
+    }
+
+    //좋아요 조회
+    public boolean likecheck(Long cafeid, String userid){
+        Likes likecheck = likeRepository.findByUseridAndCafeid(userid, cafeid).orElse(null);
+        return likecheck == null;
     }
 }

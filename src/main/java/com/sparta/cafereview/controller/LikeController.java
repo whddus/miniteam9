@@ -28,4 +28,12 @@ public class LikeController {
         String userid = userDetails.getUsername();
         return likeService.unlike(cafeid, userid);
     }
+
+    //게시글 좋아요 리스트
+    @GetMapping("/like/check/{cafeid}")
+    public boolean likecheck(@PathVariable Long cafeid,
+                             @AuthenticationPrincipal UserDetailsImpl userDetails){
+        String userid = userDetails.getUsername();
+        return likeService.likecheck(cafeid, userid);
+    }
 }
