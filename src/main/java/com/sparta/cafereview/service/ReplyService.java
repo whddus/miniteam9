@@ -49,6 +49,7 @@ public class ReplyService {
         return replyRepository.findAllByCafeid(cafeid, pageable);
     }
 
+
     // 댓글 수정
     public boolean update(Long cafeid, Long replyid, ReplyRequestDto replyRequestDto) {
         Reply reply = replyRepository.findByCafeidAndId(cafeid, replyid);

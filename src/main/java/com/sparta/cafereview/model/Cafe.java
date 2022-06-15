@@ -2,6 +2,8 @@ package com.sparta.cafereview.model;
 
 import com.sparta.cafereview.requestdto.CafeRequestDto;
 import com.sparta.cafereview.requestdto.CafeUpdateDto;
+import com.sparta.cafereview.validator.CafeValidator;
+import com.sparta.cafereview.validator.ReplyValidator;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -30,6 +32,9 @@ public class Cafe {
     private int likecafenumber = 0;
 
     public Cafe(CafeRequestDto requestDto){
+
+        CafeValidator.validateCafeReviewInput(requestDto);
+
         this.cafename = requestDto.getCafename();
         this.coffeebeanname = requestDto.getCoffeebeanname();
         this.imgUrl = requestDto.getImgUrl();
@@ -39,6 +44,9 @@ public class Cafe {
     }
 
     public void update(CafeUpdateDto requestDto) {
+
+        CafeValidator.validateUpdateCafeReviewInput(requestDto);
+
         this.cafename = requestDto.getCafename();
         this.coffeebeanname = requestDto.getCoffeebeanname();
         this.imgUrl = requestDto.getImgUrl();
