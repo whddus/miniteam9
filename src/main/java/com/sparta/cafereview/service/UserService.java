@@ -1,6 +1,7 @@
 package com.sparta.cafereview.service;
 
 import com.sparta.cafereview.model.User;
+import com.sparta.cafereview.model.UserRoleEnum;
 import com.sparta.cafereview.repository.UserRepository;
 import com.sparta.cafereview.requestdto.UserRequestDto;
 import com.sparta.cafereview.responsedto.JwtResponseDto;
@@ -31,36 +32,14 @@ public class UserService {
 
     //회원가입
     public boolean signupUser(UserRequestDto singUpData){
-        if(singUpData.getUserid() == null){
-            throw new IllegalArgumentException("아이디를 입력해 주세요");
-        } else if (singUpData.getUserid().equals("")) {
-            throw new IllegalArgumentException("아이디를 입력해 주세요");
-        } else if (!singUpData.getUserid().matches("^[a-zA-Z\\d]+@[a-zA-Z\\d]+.[a-z]+$")) {
-            throw new IllegalArgumentException("아이디 형식을 확인해 주세요");
-        }
+        UserRoleEnum role = UserRoleEnum.USER;
 
-        if(singUpData.getNickname() == null){
-            throw new IllegalArgumentException("닉네임을 입력해 주세요");
-        } else if (singUpData.getNickname().equals("")) {
-            throw new IllegalArgumentException("닉네임을 입력해 주세요");
-        } else if (!singUpData.getNickname().matches("^[가-힣a-zA-Z]+$")) {
-            throw new IllegalArgumentException("닉네임 형식을 확인해 주세요");
-        }
-
-        if(singUpData.getPassword() == null){
-            throw new IllegalArgumentException("비밀번호를 입력해 주세요");
-        } else if (singUpData.getPassword().equals("")) {
-            throw new IllegalArgumentException("비밀번호를 입력해 주세요");
-        } else if (!singUpData.getPassword().matches("^((?=.*[A-Za-z])|(?=.*\\d)|(?=.*[~!@#$%^&*()_+=])$)[A-Za-z\\d~!@#$%^&*()_+=]{10,25}$")) {
-            throw new IllegalArgumentException("비밀번호 형식을 확인해 주세요");
-        } else if (singUpData.getPassword().matches("(\\w)\\1\\1")) {
-            throw new IllegalArgumentException("비밀번호는 동일한 문자가 3개이상 연속 될 수 없습니다");
-        }
-
-        User beforeSaveUser = new User(singUpData);
+        User beforeSaveUser = new User(singUpData, role);
         beforeSaveUser.encryptPassword(passwordEncoder);
+
         User saveUser = userRepository.save(beforeSaveUser);
         User checkUser = userRepository.findById(saveUser.getId()).orElse(null);
+
         return saveUser.equals(checkUser);
     }
 
