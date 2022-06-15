@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class LikeController {
     private final LikeService likeService;
 
-    //좋아요 하기
+    //게시글 좋아요 하기
     @GetMapping("/like/{cafeid}")
     public boolean like(@PathVariable Long cafeid,
                         @AuthenticationPrincipal UserDetailsImpl userDetails){
@@ -21,7 +21,7 @@ public class LikeController {
         return likeService.like(cafeid, userid);
     }
 
-    //좋아요 취소
+    //게시글 좋아요 취소
     @GetMapping("/unlike/{cafeid}")
     public boolean unlike(@PathVariable Long cafeid,
                           @AuthenticationPrincipal UserDetailsImpl userDetails){
