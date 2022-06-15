@@ -6,6 +6,10 @@ import com.sparta.cafereview.requestdto.ReplyRequestDto;
 import com.sparta.cafereview.responsedto.ReplyResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,6 +40,14 @@ public class ReplyService {
     public List<ReplyResponseDto> getListReply(Long cafeid) {
         List<Reply> replies = replyRepository.findAllByCafeid(cafeid);
         return replies.stream().map(ReplyResponseDto::new).collect(Collectors.toList());
+    }
+
+    //댓글 전체 조회(페이징 적용)
+    public Page<Reply> getListPageingReply(int page, int size, String sortBy, boolean isAsc, Long cafeid) {
+        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return replyRepository.findAllByCafeidPage(cafeid, pageable);
     }
 
     // 댓글 수정

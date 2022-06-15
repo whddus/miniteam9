@@ -1,11 +1,13 @@
 package com.sparta.cafereview.controller;
 
+import com.sparta.cafereview.model.Reply;
 import com.sparta.cafereview.requestdto.ReplyRequestDto;
 import com.sparta.cafereview.responsedto.ReplyResponseDto;
 import com.sparta.cafereview.security.UserDetailsImpl;
 import com.sparta.cafereview.service.ReplyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +40,17 @@ public class ReplyController {
     @GetMapping("/reply/list/{cafeid}")
     private List<ReplyResponseDto> getListReply(@PathVariable Long cafeid) {
         return replyService.getListReply(cafeid);
+    }
+
+    //댓글 전체 조회(페이징 적용)
+    @GetMapping("/reply/list/pageing/{cafeid}")
+    private Page<Reply> getListPageingReply(@RequestParam("page") int page,
+                                            @RequestParam("size") int size,
+                                            @RequestParam("sortBy") String sortBy,
+                                            @RequestParam("isAsc") boolean isAsc,
+                                            @PathVariable Long cafeid) {
+        page = page -1;
+        return replyService.getListPageingReply(page, size, sortBy, isAsc, cafeid);
     }
 
     //댓글 수정
