@@ -28,7 +28,6 @@ public class CafeController {
         return cafeService.saveCafe(cafeRequestDto,file,userDetails);
     }
 
-
     //전체 조회
     @GetMapping("/cafereview/list")
     public List<CafeResponseDto> getCafeList() {
@@ -45,7 +44,7 @@ public class CafeController {
     }
 
     //카페리뷰 카테고리별 조회
-    @PostMapping("/cafereview/list/{coffeebeanname}")
+    @GetMapping("/cafereview/list/{coffeebeanname}")
     public List<CafeResponseDto> getContents(@PathVariable String coffeebeanname) {
         return cafeService.sortByCoffeebeanname(coffeebeanname);
     }
@@ -58,7 +57,7 @@ public class CafeController {
     }
 
     //상세조회
-    @GetMapping("/cafereview/list/{cafeid}")
+    @GetMapping("/cafereview/list/detail/{cafeid}")
     public CafeDetailResponseDto getCafe(@PathVariable Long cafeid) {
         return cafeService.getCafe(cafeid);
     }
