@@ -80,7 +80,7 @@ public class CafeController {
     }
 
     //카페리뷰 상세조회
-    @GetMapping("/cafereview/list/detail/{cafeid}")
+    @GetMapping("/cafereview/detail/{cafeid}")
     public CafeDetailResponseDto getCafe(@PathVariable Long cafeid) {
         return cafeService.getCafe(cafeid);
     }
