@@ -35,3 +35,5 @@ AWS EC2
 JPA
 JWT
 aws s3
+lombok
+h2
