@@ -28,12 +28,20 @@ https://www.youtube.com/watch?v=AP_K-EN9RLU
 https://teamsparta.notion.site/teamsparta/SA-5-eb8d880296524bd4bde8a562b2906914
 
 # Back-end 기술 스택 및 개발 환경
-java
+java 8
+
 spring boot 2.6.8
+
+JWT 0.9.1
+
+aws s3 2.2.6
+
+lombok 1.18.22
+
 Mysql
+
 AWS EC2
+
 JPA
-JWT
-aws s3
-lombok
+
 h2
