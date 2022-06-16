@@ -60,6 +60,17 @@ public class CafeController {
     public List<CafeResponseDto> getContentsSortByCoffeebeanname(@PathVariable String coffeebeanname) {
         return cafeService.getContentsSortByCoffeebeanname(coffeebeanname);
     }
+    //카페리뷰 카테고리별 페이징 조회
+    @GetMapping("/cafereview/list/pageing/{coffeebeanname}")
+    public Page<CafeResponseDto> getContentsSortByCoffeebeannamePageing(@PathVariable String coffeebeanname,
+                                                                 @RequestParam("page") int page,
+                                                                 @RequestParam("size") int size,
+                                                                 @RequestParam("sortBy") String sortBy
+    ) {
+        page = page -1;
+        return cafeService.getContentsSortByCoffeebeannamePageing(coffeebeanname,page,size,sortBy);
+    }
+
 
     //카페리뷰 삭제
     @DeleteMapping("/cafereview/{cafeid}")
