@@ -21,11 +21,12 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+    implementation 'org.projectlombok:lombok:1.18.22'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     // https://mvnrepository.com/artifact/org.apache.commons/commons-text
     implementation group: 'org.apache.commons', name: 'commons-text', version: '1.9'
@@ -35,8 +36,16 @@ dependencies {
 
     // JWT
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
     //aws s3
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
+    //test용 라이브러리
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // 테스트 코드를 위한 Lombok 라이브러리
+    testCompileOnly 'org.projectlombok:lombok:1.18.24'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
 }
 
 tasks.named('test') {
