@@ -32,7 +32,7 @@ public class Reply {
 
     public void update(ReplyRequestDto replyRequestDto){
 
-        ReplyValidator.validateReplyInput(replyRequestDto);
+        ReplyValidator.validateUnDateReplyInput(replyRequestDto);
 
         this.reply = replyRequestDto.getReply();
     }

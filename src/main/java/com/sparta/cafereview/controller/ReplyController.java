@@ -43,7 +43,6 @@ public class ReplyController {
     }
 
     //댓글 전체 조회(페이징 적용)
-
     @GetMapping("/reply/list/paging/{cafeid}")
     private Page<Reply> getListPagingReply(@RequestParam("page") int page,
                                            @RequestParam("size") int size,
@@ -52,7 +51,6 @@ public class ReplyController {
         page = page - 1;
         return replyService.getListPagingReply(page, size, sortBy, cafeid);
     }
-
 
     //댓글 수정
     @PatchMapping("/reply/{cafeid}/{replyid}")
