@@ -29,7 +29,7 @@ https://teamsparta.notion.site/teamsparta/SA-5-eb8d880296524bd4bde8a562b2906914
 
 # Back-end 기술 스택 및 개발 환경
 java
-spring boot
+spring boot 2.6.8
 Mysql
 AWS EC2
 JPA
