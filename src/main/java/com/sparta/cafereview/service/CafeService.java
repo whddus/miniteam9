@@ -53,11 +53,10 @@ public class CafeService {
     }
 
     //카페리뷰 페이징적용 전체조회
-    public Page<CafeResponseDto> getCafePageList(int page, int size, String sortBy, boolean isAsc) {
-        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
-        Sort sort = Sort.by(direction, sortBy);
+    public Page<CafeResponseDto> getCafePageList(int page, int size, String sortBy) {
+        Sort sort = Sort.by(Sort.Direction.DESC, sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
-        return cafeRepository.findAllByOrderByIdDesc(pageable);
+        return cafeRepository.findAllBy(pageable);
     }
 
 
