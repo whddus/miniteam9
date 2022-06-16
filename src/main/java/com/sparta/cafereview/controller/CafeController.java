@@ -39,10 +39,10 @@ public class CafeController {
     @GetMapping("/cafereview/list/pageing")
     public Page<CafeResponseDto> getCafePageList(@RequestParam("page") int page,
                                                  @RequestParam("size") int size,
-                                                 @RequestParam("sortBy") String sortBy,
-                                                 @RequestParam("isAsc") boolean isAsc) {
+                                                 @RequestParam("sortBy") String sortBy
+                                                 ) {
         page = page -1;
-        return cafeService.getCafePageList(page,size,sortBy,isAsc);
+        return cafeService.getCafePageList(page,size,sortBy);
     }
 
     //카페리뷰 수정
