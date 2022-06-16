@@ -57,8 +57,13 @@ public class CafeController {
 
     //카페리뷰 카테고리별 조회
     @GetMapping("/cafereview/list/{coffeebeanname}")
-    public List<CafeResponseDto> getContentsSortByCoffeebeanname(@PathVariable String coffeebeanname) {
-        return cafeService.getContentsSortByCoffeebeanname(coffeebeanname);
+    public Page<CafeResponseDto> getContentsSortByCoffeebeanname(@PathVariable String coffeebeanname,
+                                                                 @RequestParam("page") int page,
+                                                                 @RequestParam("size") int size,
+                                                                 @RequestParam("sortBy") String sortBy
+                                                                 ) {
+        page = page -1;
+        return cafeService.getContentsSortByCoffeebeanname(coffeebeanname,page,size,sortBy);
     }
 
     //카페리뷰 삭제

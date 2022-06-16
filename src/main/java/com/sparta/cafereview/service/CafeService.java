@@ -81,8 +81,10 @@ public class CafeService {
     }
 
     //카페리뷰 커피빈별 검색
-    public List<CafeResponseDto> getContentsSortByCoffeebeanname(String coffeebeanname) {
-        return cafeRepository.findAllByCoffeebeannameOrderByIdDesc(coffeebeanname);
+    public Page<CafeResponseDto> getContentsSortByCoffeebeanname(String coffeebeanname,int page, int size, String sortBy) {
+        Sort sort = Sort.by(Sort.Direction.DESC, sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return cafeRepository.findAllByCoffeebeannameOrderByIdDesc(coffeebeanname,pageable);
     }
 
     //카페리뷰 삭제
